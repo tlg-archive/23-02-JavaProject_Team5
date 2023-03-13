@@ -1,12 +1,12 @@
 package com.wheel.sys;
 
-import com.wheel.resources.Wedge;
+import com.wheel.resources.wedge.Wedge;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-class Wheel {
+public class Wheel {
 
     ArrayList<Wedge> wedges = new ArrayList<Wedge>();
     Map<Integer, Wedge> baseValue = new HashMap<>();

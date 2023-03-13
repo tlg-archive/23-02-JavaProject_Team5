@@ -1,11 +1,11 @@
 package com.wheel.sys;
 
-import com.wheel.resources.Wedge;
+import com.wheel.resources.wedge.Wedge;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-class Player {
+public class Player {
     private String name;
     private Double roundBalance;
     private Double gameBalance;

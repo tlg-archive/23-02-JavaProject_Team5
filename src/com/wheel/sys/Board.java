@@ -1,12 +1,17 @@
 package com.wheel.sys;
 
+import com.wheel.resources.Letter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-class Board {
+public class Board {
     List<Puzzle> puzzles = new List<>();
     List<String> banner = new ArrayList<>(); //Read banner from file
     List<Letter> wrongGuesses = new ArrayList<>();
+    public static Board getInstance(){
+        return new Board();
+    }
 
     public void revealLetter(Letter letter){
         //update the board to show the letter
