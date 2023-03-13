@@ -1,7 +1,6 @@
 package com.wheel.sys;
 
 import com.wheel.resources.Wedge;
-import com.wheel.resources.WedgeMoney;
 
 import java.util.ArrayList;
 import java.util.HashMap;
