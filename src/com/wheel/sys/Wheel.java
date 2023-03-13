@@ -1,15 +1,16 @@
 package com.wheel.sys;
 
-import com.wheel.resources.Wedge;
 
-import java.util.ArrayList;
+import com.wheel.resources.wedge.Wedge;
+import com.wheel.resources.wedge.WedgeMoney;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-class Wheel {
+public class Wheel {
 
     List<WedgeMoney> wedges = Stream.generate(() -> WedgeMoney.US_500)
             .limit(3)
