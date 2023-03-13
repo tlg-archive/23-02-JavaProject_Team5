@@ -2,7 +2,6 @@ package com.wheel.sys;
 
 import com.apps.util.Prompter;
 import com.wheel.resources.Consonant;
-import com.wheel.resources.Letter;
 import com.wheel.resources.Puzzle;
 import com.wheel.resources.wedge.Wedge;
 import com.wheel.resources.wedge.WedgeGood;
@@ -105,6 +104,6 @@ public class Host {
 
     public void generatePuzzle() {
         //Temporary - replace with puzzleFactory that reads puzzles from a file.
-        puzzle = new Puzzle("CHITTY CHITTY BANG BANG", "Title");
+        puzzle = new Puzzle(tokens[0], "CHITTY CHITTY BANG BANG", "Title");
     }
 }
