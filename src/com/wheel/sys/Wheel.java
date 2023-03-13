@@ -18,7 +18,26 @@ public class Wheel {
         wheel.add(WedgeMoney.US_500);
         wheel.add(WedgeMoney.US_500);
         wheel.add(WedgeMoney.US_500);
-
+        wheel.add(WedgeMoney.US_550);
+        wheel.add(WedgeMoney.US_550);
+        wheel.add(WedgeMoney.US_600);
+        wheel.add(WedgeMoney.US_600);
+        wheel.add(WedgeMoney.US_650);
+        wheel.add(WedgeMoney.US_650);
+        wheel.add(WedgeMoney.US_700);
+        wheel.add(WedgeMoney.US_700);
+        wheel.add(WedgeMoney.US_750);
+        wheel.add(WedgeMoney.US_750);
+        wheel.add(WedgeMoney.US_800);
+        wheel.add(WedgeMoney.US_800);
+        wheel.add(WedgeMoney.US_850);
+        wheel.add(WedgeMoney.US_850);
+        wheel.add(WedgeMoney.US_900);
+        wheel.add(WedgeMoney.US_900);
+        wheel.add(WedgeBad.BANKRUPT);
+        wheel.add(WedgeBad.BANKRUPT);
+        wheel.add(WedgeBad.LOSE_TURN);
+        wheel.add(WedgeGood.FREE_SPIN);
 
 
     }
