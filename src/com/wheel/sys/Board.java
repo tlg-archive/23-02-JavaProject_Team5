@@ -33,7 +33,7 @@ class Board {
         //This should show all of the letters in the solution.
     }
 
-    public boolean isLetterCorrect(Letter guess){
+    public boolean isCorrect(Letter guess){
         boolean correct = false;
         //logic here
         if(correct){
@@ -41,4 +41,13 @@ class Board {
         }
         return correct;
     }
+
+    public void displayPlayers(){
+        // player information on bottom of board. Name, number, and amount of money
+
+    }
+
+
+
+
 }
