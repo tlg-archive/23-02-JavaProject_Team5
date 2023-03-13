@@ -1,6 +1,6 @@
 package com.wheel.resources.wedge;
 
-enum WedgeBad implements WedgeSpecial{
+public enum WedgeBad implements WedgeSpecial{
     BANKRUPT(0),LOSE_TURN(0);
 
     private final int value;
