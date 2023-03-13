@@ -5,7 +5,6 @@ import com.wheel.sys.Host;
 import com.wheel.sys.Player;
 import com.wheel.sys.Wheel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WheelOfFortune {
@@ -18,14 +17,21 @@ public class WheelOfFortune {
         board.displayBanner();
         players = host.getPlayers();
         int rounds = host.getRounds();
+        int round = 0;
         boolean gameOver = false;
 
-        while(!gameOver) {
+        while (round < rounds) {
+            host.generatePuzzle();
+            boolean roundOver = false;
             board.revealBoard();
-            for (int i = 0; i < players.size(); i++){
-                host.doTurn(players.get(i));
 
-                if(i == players.size()) i = 0;
+            int index = 0;
+            while (!roundOver) {
+
+                roundOver = host.winOnTurn(players.get(index));
+
+                index++;
+                if (index == players.size()) index = 0;
             }
 
         }

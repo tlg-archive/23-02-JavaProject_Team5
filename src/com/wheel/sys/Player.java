@@ -11,7 +11,7 @@ public class Player {
 
     private String name;
     private int playerNumber;
-    private Double roundBalance;
+    private int roundBalance;
     private Double gameBalance;
 
     Collection<Wedge> tokens = new ArrayList<>();
@@ -61,7 +61,7 @@ public class Player {
         this.name = name;
     }
 
-    public Double getRoundBalance() {
+    public int getRoundBalance() {
         return roundBalance;
     }
 
@@ -76,5 +76,9 @@ public class Player {
     public String toString() {
         return String.format("%s: PlayerNumber:%s Name:%s Wins:%s , RoundBalance:%s , GameBalance=%s ",
                 getClass(), getPlayerNumber(), getName(), getRoundBalance(), getRoundBalance());
+    }
+
+    public void goBankrupt() {
+        roundBalance = 0;
     }
 }
