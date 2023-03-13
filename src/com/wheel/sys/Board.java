@@ -1,12 +1,13 @@
 package com.wheel.sys;
 
 import com.wheel.resources.Letter;
+import com.wheel.resources.Puzzle;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    List<Puzzle> puzzles = new List<>();
+    List<Puzzle> puzzles = new ArrayList<>();
     List<String> banner = new ArrayList<>(); //Read banner from file
     List<Letter> wrongGuesses = new ArrayList<>();
     public static Board getInstance(){
