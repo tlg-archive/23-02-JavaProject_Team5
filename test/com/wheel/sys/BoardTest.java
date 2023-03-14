@@ -11,11 +11,18 @@ public class BoardTest {
 
     @Before
     public void initialize(){
-        board.setCurrentPuzzle(new Puzzle("CHITTY CHITTY BANG BANG AEIOU", "Title", 0));
+
+        String puzzle = "JINGLE BELLS JINGLE BELLS JINGLE ALL THE WAY";
+        //puzzle = "CHITTY CHITTY BANG BANG AEIOU";
+        board.setCurrentPuzzle(new Puzzle(puzzle, "Title", 0));
     }
 
     @Test
     public void showSolution() {
-        board.showSolution();
+        for(int i = 0; i < 1000; i++){
+            board.setCurrentPuzzle(Puzzle.PuzzleFactory.getRandomPuzzle());
+            board.showSolution();
+        }
+//        board.showSolution();
     }
 }

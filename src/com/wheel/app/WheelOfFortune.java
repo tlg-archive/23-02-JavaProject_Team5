@@ -18,14 +18,15 @@ public class WheelOfFortune {
         board.displayBanner();
         players = host.getPlayers();
         int rounds = host.getRounds();
-        int round = 0;
+        int round = 1;
         boolean gameOver = false;
         Console.clear();
 
-        while (round < rounds) {
+        while (round <= rounds) {
             host.generatePuzzle();
             board.displayBoard(host.getPuzzle());
             boolean roundOver = false;
+            board.updateRound(round);
             board.revealBoard();
             Wheel wheel = new Wheel();
 

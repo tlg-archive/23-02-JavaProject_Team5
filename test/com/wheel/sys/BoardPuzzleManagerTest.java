@@ -4,6 +4,7 @@ import com.wheel.resources.Puzzle;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
@@ -23,8 +24,13 @@ public class BoardPuzzleManagerTest {
 //        }
 
         for(int i = 0; i < 2000; i++){
+            System.out.println(i);
             manager = new BoardPuzzleManager(Puzzle.PuzzleFactory.getRandomPuzzle());
-            assertTrue(manager.determineLines().size() < 5 && manager.determineLines().size() > 0);
+            ArrayList<String[]> lines = manager.determineLines();
+            for(var item : lines){
+                System.out.println(Arrays.toString(item));
+            }
+            assertTrue(lines.size() < 5 && lines.size() > 0);
         }
     }
 }

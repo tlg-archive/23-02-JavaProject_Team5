@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/*
+ * Places where there are words will be filled with "▓".
+ * Blanks will be filled with "░".
+ */
+
 public class Board {
     List<String> banner = new ArrayList<>(); //Read banner from file
     List<Letter> wrongGuesses = new ArrayList<>();
@@ -92,10 +97,30 @@ public class Board {
         }
         ArrayList<String[]> puzzleWords = manager.determineLines();
         int index = 0;
+        //This portion works right now but could be refactored later to make it more compact.
         if(puzzleWords.size() > 2){
-            //║ R ╔═╝|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|╚═╗ R ║
-            String line1 = Arrays.toString(puzzleWords.get(0));
-            System.out.println(line1);
+            String line1 = solutionLine(puzzleWords.get(index++));
+            String mask = boardLines.get(7);
+            System.out.println(overlaySolution(mask, line1));
+            System.out.println(boardLines.get(8));
+            line1 = solutionLine(puzzleWords.get(index++));
+            mask = boardLines.get(9);
+            System.out.println(overlaySolution(mask, line1));
+
+            System.out.println(boardLines.get(10));
+            line1 = solutionLine(puzzleWords.get(index++));
+            mask = boardLines.get(11);
+            System.out.println(overlaySolution(mask, line1));
+
+            System.out.println(boardLines.get(12));
+
+            if(index != puzzleWords.size()){
+                line1 = solutionLine(puzzleWords.get(puzzleWords.size() - 1));
+                mask = boardLines.get(13);
+                System.out.println(overlaySolution(mask, line1));
+            } else {
+                    System.out.println(boardLines.get(13));
+            }
         } else {
             System.out.println(boardLines.get(7));
             System.out.println(boardLines.get(8));
@@ -103,15 +128,23 @@ public class Board {
             String line = solutionLine(puzzleWords.get(index++));
             System.out.println(overlaySolution(mask, line));
             System.out.println(boardLines.get(10));
+            if(puzzleWords.size() == 2){
+                mask = boardLines.get(11);
+                line = solutionLine(puzzleWords.get(index));
+                System.out.println(overlaySolution(mask, line));
 
-            mask = boardLines.get(11);
-            line = solutionLine(puzzleWords.get(index));
-            System.out.println(overlaySolution(mask, line));
+            } else {
+                System.out.println(boardLines.get(11));
+            }
             System.out.println(boardLines.get(12));
-
-
-
+            System.out.println(boardLines.get(13));
         }
+        System.out.println(boardLines.get(14));
+        System.out.println(boardLines.get(15));
+    }
+
+    public void updateRound(Integer round){
+        boardLines.set(13,boardLines.get(13).replaceAll("\\d", round.toString()));
     }
 
     private String overlaySolution(String base, String overlay){
@@ -135,7 +168,9 @@ public class Board {
 
     private String solutionLine(String[] puzzleWords) {
         String line1 = Arrays.toString(puzzleWords).replace("[","").
-                replace("]","").replace(",","").replace(" ", "▒");
+                replace("]","").replace(",","").replace(" ", "░");
+
+
         StringBuilder sb = new StringBuilder();
         sb.append("|");
         for (int i = 0; i < line1.length(); i++) {
