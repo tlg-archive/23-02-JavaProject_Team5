@@ -83,6 +83,6 @@ public class Player {
     }
 
     public int deductMoney(int vowelCost) {
-        return getRoundBalance() - vowelCost;
+        return (getRoundBalance() - vowelCost);
     }
 }
