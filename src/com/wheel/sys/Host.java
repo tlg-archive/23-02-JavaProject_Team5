@@ -19,6 +19,9 @@ public class Host {
     //PUT THIS SOMEWHERE ELSE
     private Prompter prompter = new Prompter(new Scanner(System.in));
 
+    public void assignPrompter(Prompter prompter){
+        this.prompter = prompter;
+    }
 
     public void promptPlayer(){
         // Tells player what to do. Look at Prompter API
@@ -26,19 +29,15 @@ public class Host {
     public void announceWinner(){
 
     }
-    public String getInput(){
-        String input = null;
 
-        return input;
-    }
 
     public List<Player> getPlayers() {
         ArrayList<Player> players = new ArrayList<>();
         //prompt number of players
-        int nPlayers = Integer.parseInt(prompter.prompt("Please enter the number of players: ","[2-5]", "Must be between 2 and 5."));
+        int nPlayers = Integer.parseInt(prompter.prompt("Please enter the number of players: \n","[2-5]", "Must be between 2 and 5."));
         for(int i = 0; i < nPlayers; i++){
             //prompt for input
-            String name = prompter.prompt("Please enter name of player " + i + 1);
+            String name = prompter.prompt("Please enter name of player " + (i + 1) +" \n");
             players.add(new Player(name));
         }
         return Collections.unmodifiableList(players);
@@ -46,8 +45,8 @@ public class Host {
 
     public int getRounds() {
         //prompt for rounds
-        int rounds = 0; //input result here
-        return rounds;
+        return Integer.parseInt(prompter.prompt("How many rounds would you like to play?\n",
+                "[3-6]", "Enter a number between 3 and 6\n"));
     }
 
     public boolean winOnTurn(Player player) {
@@ -104,6 +103,6 @@ public class Host {
 
     public void generatePuzzle() {
         //Temporary - replace with puzzleFactory that reads puzzles from a file.
-        puzzle = new Puzzle(tokens[0], "CHITTY CHITTY BANG BANG", "Title");
+        puzzle = new Puzzle("CHITTY CHITTY BANG BANG", "Title", 0);
     }
 }
