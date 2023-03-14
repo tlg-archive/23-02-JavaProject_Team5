@@ -33,8 +33,8 @@ public class Player {
         roundBalance += money;
     }
 
-    public Wedge spin(){
-        Wedge result = null;
+    public Wedge spin(Wheel wheel){
+        Wedge result = wheel.getRandomWedge();
 
         return result;
     }

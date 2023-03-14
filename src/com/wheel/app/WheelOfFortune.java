@@ -24,15 +24,17 @@ public class WheelOfFortune {
             host.generatePuzzle();
             boolean roundOver = false;
             board.revealBoard();
+            Wheel wheel = new Wheel();
 
             int index = 0;
             while (!roundOver) {
-
-                roundOver = host.winOnTurn(players.get(index));
+                System.out.println("We are in round: " + (round + 1));
+                roundOver = host.winOnTurn(players.get(index), wheel);
 
                 index++;
                 if (index == players.size()) index = 0;
             }
+            round++;
 
         }
     }

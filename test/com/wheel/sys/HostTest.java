@@ -5,10 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,7 +23,7 @@ public class HostTest {
     @Test
     public void getPlayers_shouldReturnListOfPlayers_matchingGetPlayersTextFile() throws FileNotFoundException {
         String file = "test/consoleInputs/getPlayers.txt";
-        host.assignPrompter(new Prompter(new Scanner(new FileInputStream(String.valueOf(Path.of(file))))));
+        host.assignPrompter(new Prompter(new Scanner(new FileInputStream(file))));
 
         List<Player> players = host.getPlayers();
         //enter 3 players
@@ -43,5 +39,12 @@ public class HostTest {
         String file = "test/consoleInputs/getRounds.txt";
         host.assignPrompter(new Prompter(new Scanner(new FileInputStream(file))));
         assertEquals(4,host.getRounds());
+    }
+
+    @Test
+    public void processGuess_shouldReturnFalse_whenPuzzleNotSolved() throws FileNotFoundException {
+        String file = "test/consoleInputs/processGuess.txt";
+        //host.assignPrompter(new Prompter(new Scanner(new FileInputStream(file))));
+        assertFalse(host.processGuess(null, new Player("Sam")));
     }
 }
