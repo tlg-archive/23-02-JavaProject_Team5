@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Puzzle {
-    String puzzle;
-    String category;
-    int used;
+    private final String puzzle;
+    private final String category;
+    private int timesUsed;
+
 
     public static class PuzzleFactory {
         private static List<Puzzle> puzzleList = new ArrayList<>();
@@ -24,21 +25,25 @@ public class Puzzle {
             }
             for(var line : lines) {
                 String[] tokens = line.split(",");
-                puzzleList.add(new Puzzle(tokens[0], tokens[1], Integer.parseInt(tokens[2])));
+                Puzzle puzzle = new Puzzle(tokens[0], tokens[1], Integer.parseInt(tokens[2]));
+                puzzleList.add(puzzle);
 
             }
         }
-
-
-
-
-
+        public static void markPuzzleAsUsed(Puzzle puzzle) {
+            int index = puzzleList.indexOf(puzzle);
+            if (index != -1) {
+                Puzzle updatedPuzzle = puzzleList.get(index);
+                updatedPuzzle.timesUsed++;
+            }
+        }
 
     }
 
     public Puzzle(String puzzle, String category, int timesUsed) {
         this.puzzle = puzzle;
         this.category = category;
+        this.timesUsed = timesUsed;
     }
 
     public boolean checkLetter(Letter letter) {
@@ -58,7 +63,7 @@ public class Puzzle {
     }
 
     public int getUsed() {
-        return used;
+        return timesUsed;
     }
 
     public boolean checkSolution(String solutionGuess) {
