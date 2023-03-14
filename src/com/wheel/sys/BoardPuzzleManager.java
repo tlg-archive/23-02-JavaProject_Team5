@@ -35,10 +35,10 @@ class BoardPuzzleManager {
         ArrayList<String> current = new ArrayList<>();
 
         int currentLength = 0;
+        int[] limits = {11,13,13,11};
         for (String word : words) {
 
-
-            if (currentLength + word.length() > 13) {
+            if (currentLength + word.length() > limits[lines.size()]) {
                 lines.add(current.toArray(new String[current.size()]));
                 current.clear();
                 currentLength = 0;
