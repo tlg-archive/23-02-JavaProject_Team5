@@ -100,11 +100,7 @@ public class Host {
             }
             System.out.println("You have $" + player.getRoundBalance());
             //The player can spin, buy a vowel, or try to solve
-//            String choice = prompter.prompt("What would you like to do?\n" +
-//                    "Spin the [W]heel\n" +
-//                    "Buy a [V]owel\n" +
-//                    "Solve the [P]uzzle\n", "[wvpWVP]", "Please select W, V, or P.\n");
-//            System.out.println(choice);
+
             StringBuilder prompt = new StringBuilder();
             StringBuilder regex = new StringBuilder();
             StringBuilder errorMessage = new StringBuilder();
@@ -114,11 +110,11 @@ public class Host {
             if(player.getRoundBalance() > vowelCost){
                 prompt.append("Buy a [V]owel\n");
                 regex.append("vV");
-                errorMessage.append(", v,");
+                errorMessage.append(", V,");
             }
             prompt.append("Solve the [P]uzzle");
             regex.append("]");
-            errorMessage.append(" or p");
+            errorMessage.append(" or P");
             String choice = prompter.prompt(prompt.toString(), regex.toString(), errorMessage.toString());
 
                 if("W".equalsIgnoreCase(choice)){
