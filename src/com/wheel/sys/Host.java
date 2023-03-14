@@ -18,9 +18,12 @@ import java.util.Scanner;
 public class Host {
     private Puzzle puzzle;
     private Wheel wheel;
+    private List<Player> players;
+    private int currentPlayerIndex;
 
     //PUT THIS SOMEWHERE ELSE
     private Prompter prompter = new Prompter(new Scanner(System.in));
+
 
     public void assignPrompter(Prompter prompter){
         this.prompter = prompter;
@@ -40,7 +43,9 @@ public class Host {
             //prompt for input
             String name = prompter.prompt("Please enter name of player " + (i + 1) +" \n");
             players.add(new Player(name));
+
         }
+
         return Collections.unmodifiableList(players);
     }
 
@@ -53,6 +58,9 @@ public class Host {
     public boolean winOnTurn(Player player, Wheel wheel) {
         boolean result = false;
         this.wheel = wheel;
+
+        System.out.println("It's " + players.get(currentPlayerIndex).getName() + "'s turn!");
+
         Wedge wedge = player.spin(wheel);
         System.out.println("You landed on " + wedge);
         if(wedge instanceof WedgeMoney || wedge instanceof WedgeGood){
@@ -68,11 +76,13 @@ public class Host {
 
     boolean processGuess(Wedge wedge, Player player){
         //prompt for guess
-        String guess = null;
+        String guess;
+        int vowelCost = 250;
         System.out.println(wedge);
         if(wedge == null){
             guess = prompter.prompt("Guess a vowel: \n", "[aeiouAEIOU]", "You paid for a vowel, so gimme one.\n");
             System.out.println(guess);
+            player.deductMoney(vowelCost);
         } else {
             guess = prompter.prompt("Guess a consonant: ", "^(?!.*[aeiouAEIOU])[a-zA-Z]$", "You can only provide a consonant.");
         }
@@ -121,5 +131,19 @@ public class Host {
 
     public Puzzle getPuzzle() {
         return puzzle;
+    }
+    public Host(){
+        players = new ArrayList<>();
+    }
+    public void setPlayers(List<Player> players){
+        this.players = players;
+    }
+
+    public Player getCurrentPlayer() {
+        return players.get(currentPlayerIndex);
+    }
+
+    public void setCurrentPlayerIndex(int currentPlayerIndex) {
+        this.currentPlayerIndex = currentPlayerIndex;
     }
 }

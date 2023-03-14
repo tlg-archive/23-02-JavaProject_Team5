@@ -37,10 +37,10 @@ public class Puzzle {
 
         }
         public static Puzzle getRandomPuzzle(){
-            System.out.println("PuzzleList size " + puzzleList.size());
+//            System.out.println("PuzzleList size " + puzzleList.size());
             Random random = new Random();
             int index = random.nextInt(puzzleList.size());
-            System.out.println("Index = " + index);
+//            System.out.println("Index = " + index);
             return puzzleList.get(index);
         }
 
