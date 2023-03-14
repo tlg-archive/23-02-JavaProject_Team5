@@ -114,14 +114,18 @@ public class Host {
             }
             prompt.append("Solve the [P]uzzle");
             regex.append("]");
+
             errorMessage.append(" or P");
+            errorMessage.append(" or p");
+
+
             String choice = prompter.prompt(prompt.toString(), regex.toString(), errorMessage.toString());
 
                 if("W".equalsIgnoreCase(choice)){
                     winOnTurn(player, wheel);
                 } else if ("V".equalsIgnoreCase(choice)){
-                    processGuess(null, player);
                     player.deductMoney(vowelCost);
+                    processGuess(null, player);
                 } else if ("P".equalsIgnoreCase(choice)){
                     String solutionGuess = prompter.prompt("Input your guess:");
                     solvedPuzzle = puzzle.checkSolution(solutionGuess);
@@ -135,10 +139,10 @@ public class Host {
 
     public void generatePuzzle() {
         //Temporary - replace with puzzleFactory that reads puzzles from a file.
-//        puzzle = new Puzzle("CHITTY CHITTY BANG BANG", "Title", 0);
+        puzzle = new Puzzle("CHITTY CHITTY BANG BANG AEIOU", "Title", 0);
 
 
-        puzzle = Puzzle.PuzzleFactory.getRandomPuzzle();
+//        puzzle = Puzzle.PuzzleFactory.getRandomPuzzle();
 
     }
 

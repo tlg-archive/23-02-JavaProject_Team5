@@ -31,7 +31,7 @@ public class WheelOfFortune {
 
             int index = 0;
             while (!roundOver) {
-                System.out.println("We are in round: " + (round + 1));
+                //System.out.println("We are in round: " + (round + 1));
                 roundOver = host.winOnTurn(players.get(index), wheel);
 
                 index++;
