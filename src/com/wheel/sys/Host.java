@@ -100,6 +100,7 @@ public class Host {
             }
             System.out.println("You have $" + player.getRoundBalance());
             //The player can spin, buy a vowel, or try to solve
+
             StringBuilder prompt = new StringBuilder();
             StringBuilder regex = new StringBuilder();
             StringBuilder errorMessage = new StringBuilder();
@@ -109,11 +110,14 @@ public class Host {
             if(player.getRoundBalance() > vowelCost){
                 prompt.append("Buy a [V]owel\n");
                 regex.append("vV");
-                errorMessage.append(", v,");
+                errorMessage.append(", V,");
             }
             prompt.append("Solve the [P]uzzle");
             regex.append("]");
+
+            errorMessage.append(" or P");
             errorMessage.append(" or p");
+
 
             String choice = prompter.prompt(prompt.toString(), regex.toString(), errorMessage.toString());
 
