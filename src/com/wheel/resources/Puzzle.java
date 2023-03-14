@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Puzzle {
     private final String puzzle;
@@ -13,23 +14,37 @@ public class Puzzle {
 
 
     public static class PuzzleFactory {
-        private static List<Puzzle> puzzleList = new ArrayList<>();
+        private static final List<Puzzle> puzzleList = readPuzzlesFromFile();
         private static List<String> lines = null;
 
-        public static void readPuzzlesFromFile()
+        public static List<Puzzle> readPuzzlesFromFile()
         {
+            List<Puzzle> puzzles = new ArrayList<>();
             try {
                 lines = Files.readAllLines(Path.of("puzzles/puzzles.csv"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            assert lines != null;
             for(var line : lines) {
                 String[] tokens = line.split(",");
                 Puzzle puzzle = new Puzzle(tokens[0], tokens[1], Integer.parseInt(tokens[2]));
-                puzzleList.add(puzzle);
+                puzzles.add(puzzle);
 
             }
+
+            return puzzles;
+
         }
+        public static Puzzle getRandomPuzzle(){
+            System.out.println("PuzzleList size " + puzzleList.size());
+            Random random = new Random();
+            int index = random.nextInt(puzzleList.size());
+            System.out.println("Index = " + index);
+            return puzzleList.get(index);
+        }
+
+
         public static void markPuzzleAsUsed(Puzzle puzzle) {
             int index = puzzleList.indexOf(puzzle);
             if (index != -1) {

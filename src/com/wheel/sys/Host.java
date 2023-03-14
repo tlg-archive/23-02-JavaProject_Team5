@@ -9,6 +9,7 @@ import com.wheel.resources.wedge.WedgeGood;
 import com.wheel.resources.wedge.WedgeMoney;
 import static com.wheel.resources.wedge.WedgeBad.*;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -111,6 +112,14 @@ public class Host {
 
     public void generatePuzzle() {
         //Temporary - replace with puzzleFactory that reads puzzles from a file.
-        puzzle = new Puzzle("CHITTY CHITTY BANG BANG", "Title", 0);
+//        puzzle = new Puzzle("CHITTY CHITTY BANG BANG", "Title", 0);
+
+
+        puzzle = Puzzle.PuzzleFactory.getRandomPuzzle();
+
+    }
+
+    public Puzzle getPuzzle() {
+        return puzzle;
     }
 }
