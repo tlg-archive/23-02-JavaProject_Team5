@@ -81,7 +81,7 @@ public class Player {
         roundBalance = 0;
     }
 
-    public int deductMoney(int vowelCost) {
-        return (getRoundBalance() - vowelCost);
+    public void deductMoney(int vowelCost) {
+        this.roundBalance -= vowelCost;
     }
 }
