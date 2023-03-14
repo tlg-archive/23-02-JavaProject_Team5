@@ -59,7 +59,7 @@ public class Host {
         boolean result = false;
         this.wheel = wheel;
 
-        System.out.println("It's " + players.get(currentPlayerIndex).getName() + "'s turn!");
+//        System.out.println("It's " + players. + "'s turn!");
 
         Wedge wedge = player.spin(wheel);
         System.out.println("You landed on " + wedge);
@@ -78,11 +78,10 @@ public class Host {
         //prompt for guess
         String guess;
         int vowelCost = 250;
-        System.out.println(wedge);
         if(wedge == null){
             guess = prompter.prompt("Guess a vowel: \n", "[aeiouAEIOU]", "You paid for a vowel, so gimme one.\n");
             System.out.println(guess);
-            player.deductMoney(vowelCost);
+
         } else {
             guess = prompter.prompt("Guess a consonant: ", "^(?!.*[aeiouAEIOU])[a-zA-Z]$", "You can only provide a consonant.");
         }
@@ -90,7 +89,6 @@ public class Host {
         //Check if guess is correct
         boolean correct = (wedge == null)? puzzle.checkLetter(Vowel.valueOf(guess.toUpperCase())) :
                 puzzle.checkLetter(Consonant.valueOf(guess.toUpperCase()));
-
         if(correct){
             if(wedge == null){
                 //this is the case where they buy a vowel
@@ -102,21 +100,40 @@ public class Host {
             }
             System.out.println("You have $" + player.getRoundBalance());
             //The player can spin, buy a vowel, or try to solve
-            String choice = prompter.prompt("What would you like to do?\n" +
-                    "Spin the [W]heel\n" +
-                    "Buy a [V]owel\n" +
-                    "Solve the [P]uzzle\n", "[wvpWVP]", "Please select W, V, or P.\n");
-            System.out.println(choice);
-
-            if("W".equalsIgnoreCase(choice)){
-                winOnTurn(player, wheel);
-            } else if ("V".equalsIgnoreCase(choice)){
-                processGuess(null, player);
-            } else if ("P".equalsIgnoreCase(choice)){
-                String solutionGuess = prompter.prompt("Input your guess:");
-                solvedPuzzle = puzzle.checkSolution(solutionGuess);
+//            String choice = prompter.prompt("What would you like to do?\n" +
+//                    "Spin the [W]heel\n" +
+//                    "Buy a [V]owel\n" +
+//                    "Solve the [P]uzzle\n", "[wvpWVP]", "Please select W, V, or P.\n");
+//            System.out.println(choice);
+            StringBuilder prompt = new StringBuilder();
+            StringBuilder regex = new StringBuilder();
+            StringBuilder errorMessage = new StringBuilder();
+            prompt.append("What would you like to do?\nSpin the [W]heel\n");
+            regex.append("[wpWP");
+            errorMessage.append("Please select W");
+            if(player.getRoundBalance() > vowelCost){
+                prompt.append("Buy a [V]owel\n");
+                regex.append("vV");
+                errorMessage.append(", v,");
             }
-        }
+            prompt.append("Solve the [P]uzzle");
+            regex.append("]");
+            errorMessage.append(" or p");
+            String choice = prompter.prompt(prompt.toString(), regex.toString(), errorMessage.toString());
+
+                if("W".equalsIgnoreCase(choice)){
+                    winOnTurn(player, wheel);
+                } else if ("V".equalsIgnoreCase(choice)){
+                    processGuess(null, player);
+                    player.deductMoney(vowelCost);
+                } else if ("P".equalsIgnoreCase(choice)){
+                    String solutionGuess = prompter.prompt("Input your guess:");
+                    solvedPuzzle = puzzle.checkSolution(solutionGuess);
+                }
+            }
+
+
+
         return solvedPuzzle;
     }
 
@@ -132,18 +149,18 @@ public class Host {
     public Puzzle getPuzzle() {
         return puzzle;
     }
-    public Host(){
-        players = new ArrayList<>();
-    }
-    public void setPlayers(List<Player> players){
-        this.players = players;
-    }
-
-    public Player getCurrentPlayer() {
-        return players.get(currentPlayerIndex);
-    }
-
-    public void setCurrentPlayerIndex(int currentPlayerIndex) {
-        this.currentPlayerIndex = currentPlayerIndex;
-    }
+//    public Host(){
+//        players = new ArrayList<>();
+//    }
+//    public void setPlayers(List<Player> players){
+//        this.players = players;
+//    }
+//
+//    public Player getCurrentPlayer() {
+//        return players.get(currentPlayerIndex);
+//    }
+//
+//    public void setCurrentPlayerIndex(int currentPlayerIndex) {
+//        this.currentPlayerIndex = currentPlayerIndex;
+//    }
 }
