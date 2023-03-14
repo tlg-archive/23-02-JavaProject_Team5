@@ -47,4 +47,9 @@ public class HostTest {
         //host.assignPrompter(new Prompter(new Scanner(new FileInputStream(file))));
         assertFalse(host.processGuess(null, new Player("Sam")));
     }
+
+    @Test
+    public void generatePuzzle_shouldReturnRandomPuzzle() {
+        System.out.println(host.getPuzzle().getPuzzle());
+    }
 }
