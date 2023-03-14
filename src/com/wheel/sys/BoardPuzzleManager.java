@@ -37,15 +37,16 @@ class BoardPuzzleManager {
         int currentLength = 0;
         for (String word : words) {
 
-            current.add(word);
-            currentLength += word.length();
+
             if (currentLength + word.length() > 13) {
                 lines.add(current.toArray(new String[current.size()]));
                 current.clear();
                 currentLength = 0;
             }
+            current.add(word);
+            currentLength += word.length();
         }
-        if(lines.isEmpty()){
+        if(lines.isEmpty() || !current.isEmpty()){
             lines.add(current.toArray(new String[current.size()]));
         }
 
