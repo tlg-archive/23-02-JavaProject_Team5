@@ -73,8 +73,8 @@ public class Player {
     }
 
     public String toString() {
-        return String.format("%s: PlayerNumber:%s Name:%s Wins:%s , RoundBalance:%s , GameBalance=%s ",
-                getClass(), getPlayerNumber(), getName(), getRoundBalance(), getRoundBalance());
+        return String.format("%s: PlayerNumber:%s Name:%s, RoundBalance:%s , GameBalance=%s ",
+                getClass(), getPlayerNumber(), getName(), getRoundBalance(), getGameBalance());
     }
 
     public void goBankrupt() {

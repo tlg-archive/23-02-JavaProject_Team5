@@ -1,5 +1,6 @@
 package com.wheel.app;
 
+import com.apps.util.Console;
 import com.wheel.sys.Board;
 import com.wheel.sys.Host;
 import com.wheel.sys.Player;
@@ -19,9 +20,11 @@ public class WheelOfFortune {
         int rounds = host.getRounds();
         int round = 0;
         boolean gameOver = false;
+        Console.clear();
 
         while (round < rounds) {
             host.generatePuzzle();
+            board.displayBoard(host.getPuzzle());
             boolean roundOver = false;
             board.revealBoard();
             Wheel wheel = new Wheel();

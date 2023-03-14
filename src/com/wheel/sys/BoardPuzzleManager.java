@@ -31,7 +31,6 @@ class BoardPuzzleManager {
     }
 
     public ArrayList<String[]> determineLines() {
-        int index = 0;
         ArrayList<String[]> lines = new ArrayList<>();
         ArrayList<String> current = new ArrayList<>();
 
@@ -52,5 +51,7 @@ class BoardPuzzleManager {
 
         return lines;
     }
+
+
 
 }

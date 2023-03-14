@@ -3,13 +3,30 @@ package com.wheel.sys;
 import com.wheel.resources.Letter;
 import com.wheel.resources.Puzzle;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    List<Puzzle> puzzles = new ArrayList<>();
     List<String> banner = new ArrayList<>(); //Read banner from file
     List<Letter> wrongGuesses = new ArrayList<>();
+    List<String> boardLines = loadBoardLinesFromFile();
+
+
+    Puzzle currentPuzzle;
+
+    private static List<String> loadBoardLinesFromFile() {
+        List<String> lines = null;
+        try {
+            lines = Files.readAllLines(Path.of("textFiles/boardBase.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines;
+    }
+
     public static Board getInstance(){
         return new Board();
     }
@@ -56,7 +73,28 @@ public class Board {
 
     }
 
+    public void updateBoard(String guess){
+
+    }
+
+    public void updateBoard(){
+
+    }
 
 
+    public void displayBoard(Puzzle puzzle) {
+        setCurrentPuzzle(puzzle);
+        for(var line : boardLines){
+            System.out.println(line);
+        }
+    }
 
+
+    public Puzzle getCurrentPuzzle() {
+        return currentPuzzle;
+    }
+
+    public void setCurrentPuzzle(Puzzle currentPuzzle) {
+        this.currentPuzzle = currentPuzzle;
+    }
 }
