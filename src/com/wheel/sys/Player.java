@@ -80,4 +80,8 @@ public class Player {
     public void goBankrupt() {
         roundBalance = 0;
     }
+
+    public int deductMoney(int vowelCost) {
+        return getRoundBalance() - vowelCost;
+    }
 }
