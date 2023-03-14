@@ -22,6 +22,9 @@ public class Board {
         //Initial startup banner
     }
 
+    /*
+     * Possible extra
+     */
     public void revealBoard(){
         //create transition from banner to board
     }

@@ -34,10 +34,9 @@ public class Player {
     }
 
     public Wedge spin(Wheel wheel){
-        Wedge result = wheel.getRandomWedge();
-
-        return result;
+        return wheel.getRandomWedge();
     }
+
     public void guess(){
 
     }
