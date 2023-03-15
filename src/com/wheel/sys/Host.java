@@ -152,6 +152,11 @@ public class Host {
                     player.addToGameBalance(player.getRoundBalance());
                     System.out.println(player.getName() + " solved the puzzle!");
                     Console.pause(2000L);
+                    Console.clear();
+                    System.out.println(player.getName() + " banked " + player.getGameBalance() +
+                            ". Let's clear the board and all players' money for the round.");
+                    Console.pause(2000L);
+                    Console.clear();
                 }
             }
         }
@@ -176,18 +181,5 @@ public class Host {
     public void setBoard(Board board) {
         this.board = board;
     }
-//    public Host(){
-//        players = new ArrayList<>();
-//    }
-//    public void setPlayers(List<Player> players){
-//        this.players = players;
-//    }
-//
-//    public Player getCurrentPlayer() {
-//        return players.get(currentPlayerIndex);
-//    }
-//
-//    public void setCurrentPlayerIndex(int currentPlayerIndex) {
-//        this.currentPlayerIndex = currentPlayerIndex;
-//    }
+
 }
