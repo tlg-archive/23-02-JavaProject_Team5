@@ -12,7 +12,6 @@ public class Wheel {
     List<Wedge> wheel = new ArrayList<>();
 
 
-
     public Wheel() {
         wheel.add(WedgeMoney.TOP_VALUE);
         wheel.add(WedgeMoney.$500);
@@ -41,6 +40,7 @@ public class Wheel {
 
 
     }
+
     public Wedge getRandomWedge() {
 
         // Generate a random index

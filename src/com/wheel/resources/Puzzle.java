@@ -17,8 +17,7 @@ public class Puzzle {
         private static final List<Puzzle> puzzleList = readPuzzlesFromFile();
         private static List<String> lines = null;
 
-        public static List<Puzzle> readPuzzlesFromFile()
-        {
+        public static List<Puzzle> readPuzzlesFromFile() {
             List<Puzzle> puzzles = new ArrayList<>();
             try {
                 lines = Files.readAllLines(Path.of("puzzles/puzzles.csv"));
@@ -26,7 +25,7 @@ public class Puzzle {
                 e.printStackTrace();
             }
             assert lines != null;
-            for(var line : lines) {
+            for (var line : lines) {
                 String[] tokens = line.split(",");
                 Puzzle puzzle = new Puzzle(tokens[0], tokens[1], Integer.parseInt(tokens[2]));
                 puzzles.add(puzzle);
@@ -36,7 +35,8 @@ public class Puzzle {
             return puzzles;
 
         }
-        public static Puzzle getRandomPuzzle(){
+
+        public static Puzzle getRandomPuzzle() {
 //            System.out.println("PuzzleList size " + puzzleList.size());
             Random random = new Random();
             int index = random.nextInt(puzzleList.size());

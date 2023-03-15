@@ -35,42 +35,39 @@ public class Board {
         return lines;
     }
 
-    public static Board getInstance(){
+    public static Board getInstance() {
         return new Board();
     }
 
 
-
-    public void displayBanner(){
+    public void displayBanner() {
         //Initial startup banner
     }
 
     /*
      * Possible extra
      */
-    public void revealBoard(){
+    public void revealBoard() {
         //create transition from banner to board
     }
 
 
-
-
-    public void displayPlayers(){
+    public void displayPlayers() {
         // player information on bottom of board. Name, number, and amount of money
 
     }
 
 
-    public void showSolution(){
+    public void showSolution() {
         topFiveLines();
         categoryLineFive();
-        for(int i = 5; i < 7; i++){
+        for (int i = 5; i < 7; i++) {
             System.out.println(boardLines.get(i));
         }
-        ArrayList<String[]> puzzleWords = manager.determineLines();
+        List<String[]> puzzleWords = manager.determineLines();
         int index = 0;
         //This portion works right now but could be refactored later to make it more compact.
-        if(puzzleWords.size() > 2){
+        if (puzzleWords.size() > 2) {
             String line1 = solutionLine(puzzleWords.get(index++));
             String mask = boardLines.get(7);
             System.out.println(overlaySolution(mask, line1));
@@ -86,12 +83,12 @@ public class Board {
 
             System.out.println(boardLines.get(12));
 
-            if(index != puzzleWords.size()){
+            if (index != puzzleWords.size()) {
                 line1 = solutionLine(puzzleWords.get(puzzleWords.size() - 1));
                 mask = boardLines.get(13);
                 System.out.println(overlaySolution(mask, line1));
             } else {
-                    System.out.println(boardLines.get(13));
+                System.out.println(boardLines.get(13));
             }
         } else {
             System.out.println(boardLines.get(7));
@@ -100,7 +97,7 @@ public class Board {
             String line = solutionLine(puzzleWords.get(index++));
             System.out.println(overlaySolution(mask, line));
             System.out.println(boardLines.get(10));
-            if(puzzleWords.size() == 2){
+            if (puzzleWords.size() == 2) {
                 mask = boardLines.get(11);
                 line = solutionLine(puzzleWords.get(index));
                 System.out.println(overlaySolution(mask, line));
@@ -112,14 +109,13 @@ public class Board {
             System.out.println(boardLines.get(13));
         }
         updateRoundMoney();
-        for(int i = 14; i <= 20; i++){
+        for (int i = 14; i <= 20; i++) {
             System.out.println(boardLines.get(i));
         }
     }
 
 
-
-    private String overlaySolution(String base, String overlay){
+    private String overlaySolution(String base, String overlay) {
         int baseLength = base.length();
         int overlayLength = overlay.length();
         int paddingLength = (baseLength - overlayLength) / 2;
@@ -127,8 +123,8 @@ public class Board {
         String leftPadding;
         String rightPadding;
         if (paddingLength % 2 == 0) { //paddingLength--;
-             leftPadding = base.substring(0, paddingLength - 1);
-             rightPadding = base.substring(baseLength - paddingLength - 1);
+            leftPadding = base.substring(0, paddingLength - 1);
+            rightPadding = base.substring(baseLength - paddingLength - 1);
         } else {
             leftPadding = base.substring(0, paddingLength);
             rightPadding = base.substring(baseLength - paddingLength);
@@ -138,8 +134,8 @@ public class Board {
     }
 
     private String solutionLine(String[] puzzleWords) {
-        String line1 = Arrays.toString(puzzleWords).replace("[","").
-                replace("]","").replace(",","").replace(" ", "░");
+        String line1 = Arrays.toString(puzzleWords).replace("[", "").
+                replace("]", "").replace(",", "").replace(" ", "░");
 
 
         StringBuilder sb = new StringBuilder();
@@ -153,12 +149,12 @@ public class Board {
         return maskSolutionLine(sb.toString());
     }
 
-    private String maskSolutionLine(String line){
-        return line.replaceAll(getAnswerMask(),"▓");
+    private String maskSolutionLine(String line) {
+        return line.replaceAll(getAnswerMask(), "▓");
     }
 
     private void topFiveLines() {
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             System.out.println(boardLines.get(i));
         }
     }
@@ -166,7 +162,7 @@ public class Board {
     private void categoryLineFive() {
         String category = currentPuzzle.getCategory();
         System.out.printf("║");
-        int leading = (36 - category.length())/2;
+        int leading = (36 - category.length()) / 2;
         printSpaces(leading);
         System.out.printf(category);
         printSpaces(37 - category.length() - leading);
@@ -176,7 +172,7 @@ public class Board {
 
     public void displayBoard(Puzzle puzzle) {
         setCurrentPuzzle(puzzle);
-        for(var line : boardLines){
+        for (var line : boardLines) {
             System.out.println(line);
         }
     }
@@ -191,8 +187,8 @@ public class Board {
         manager = new BoardPuzzleManager(currentPuzzle);
     }
 
-    private void printSpaces(int num){
-        for(int i = 0; i < num; i++){
+    private void printSpaces(int num) {
+        for (int i = 0; i < num; i++) {
             System.out.printf(" ");
         }
     }
@@ -202,31 +198,31 @@ public class Board {
         StringBuilder sb = new StringBuilder();
         sb.append("║    ");
         int count = 0;
-        for(var player : players){
+        for (var player : players) {
             sb.append(padBottomBracket(player.getName()));
             count++;
-            if(count < 2) sb.append("|");
+            if (count < 3) sb.append("|");
         }
-        if(players.size() == 2) sb.append("|         ");
+        if (players.size() == 2) sb.append("         ");
         sb.append("    ║");
         boardLines.set(17, sb.toString());
     }
 
-    public void updateRound(Integer round){
-        boardLines.set(13,boardLines.get(13).replaceAll("\\d", round.toString()));
+    public void updateRound(Integer round) {
+        boardLines.set(13, boardLines.get(13).replaceAll("\\d", round.toString()));
         correctGuesses = new StringBuilder();
     }
 
-    private void updateRoundMoney(){
+    private void updateRoundMoney() {
         StringBuilder sb = new StringBuilder();
         sb.append("║    ");
         int count = 0;
-        for(var player : players){
+        for (var player : players) {
             sb.append(padBottomBracket("$" + player.getRoundBalance()));
             count++;
-            if(count < 2) sb.append("|");
+            if (count < 3) sb.append("|");
         }
-        if(players.size() == 2) sb.append("|         ");
+        if (players.size() == 2) sb.append("         ");
         sb.append("    ║");
         boardLines.set(18, sb.toString());
     }
@@ -235,10 +231,10 @@ public class Board {
         String old = "║                                     ║";
         int index = (playerIndex + 1) * 10 - 1;
         String updated = old.substring(0, index) + "*" + old.substring(index + 1);
-        boardLines.set(16,updated);
+        boardLines.set(16, updated);
     }
 
-    private String padBottomBracket(String input){
+    private String padBottomBracket(String input) {
         int paddingLength = 9 - input.length();
         int paddingBefore = paddingLength / 2;
         int paddingAfter = paddingLength - paddingBefore;
@@ -247,12 +243,12 @@ public class Board {
 
     }
 
-    public void recordCorrectGuess(String guess){
+    public void recordCorrectGuess(String guess) {
         correctGuesses.append(guess);
-        System.out.println(correctGuesses);
+        //System.out.println(correctGuesses);
     }
 
-    private String getAnswerMask(){
+    private String getAnswerMask() {
         return "[^-?!░|" + correctGuesses.toString() + "]";
     }
 }

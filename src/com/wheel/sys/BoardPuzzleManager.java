@@ -4,12 +4,13 @@ import com.wheel.resources.Puzzle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * This class manages the puzzle on the board
  * 1234567890123456789012345678901
- *   ╔═════════════════════════╗   1
- *   ║+-+-+-+-+-+-+-+-+-+-+-+-+║   2
+ * ╔═════════════════════════╗   1
+ * ║+-+-+-+-+-+-+-+-+-+-+-+-+║   2
  * ╔═╝|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|╚═╗ 3
  * ║+-+-+-+-+-+-+-+-+-+-+-+-+-+-+║ 4
  * ║|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|║ 5
@@ -17,8 +18,8 @@ import java.util.Arrays;
  * ║|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|║ 7
  * ║+-+-+-+-+-+-+-+-+-+-+-+-+-+-+║ 8
  * ╚═╗|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|▒|╔═╝ 9
- *   ║+-+-+-+-+-+-+-+-+-+-+-+-+║   10
- *   ╚═════════════════════════╝   11
+ * ║+-+-+-+-+-+-+-+-+-+-+-+-+║   10
+ * ╚═════════════════════════╝   11
  * Category
  */
 class BoardPuzzleManager {
@@ -30,12 +31,12 @@ class BoardPuzzleManager {
         words = puzzle.getPuzzle().split(" ");
     }
 
-    public ArrayList<String[]> determineLines() {
-        ArrayList<String[]> lines = new ArrayList<>();
-        ArrayList<String> current = new ArrayList<>();
+    public List<String[]> determineLines() {
+        List<String[]> lines = new ArrayList<>();
+        List<String> current = new ArrayList<>();
 
         int currentLength = 0;
-        int[] limits = {11,13,13,11};
+        int[] limits = {11, 13, 13, 11};
         for (String word : words) {
 
             if (currentLength + word.length() > limits[lines.size()]) {
@@ -46,13 +47,12 @@ class BoardPuzzleManager {
             current.add(word);
             currentLength += word.length();
         }
-        if(lines.isEmpty() || !current.isEmpty()){
+        if (lines.isEmpty() || !current.isEmpty()) {
             lines.add(current.toArray(new String[current.size()]));
         }
 
         return lines;
     }
-
 
 
 }

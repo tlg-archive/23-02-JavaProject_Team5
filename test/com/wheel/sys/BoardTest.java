@@ -10,7 +10,7 @@ public class BoardTest {
     Board board = new Board();
 
     @Before
-    public void initialize(){
+    public void initialize() {
 
         String puzzle = "JINGLE BELLS JINGLE BELLS JINGLE ALL THE WAY";
         //puzzle = "CHITTY CHITTY BANG BANG AEIOU";
@@ -19,7 +19,7 @@ public class BoardTest {
 
     @Test
     public void showSolution() {
-        for(int i = 0; i < 1000; i++){
+        for (int i = 0; i < 1000; i++) {
             board.setCurrentPuzzle(Puzzle.PuzzleFactory.getRandomPuzzle());
             board.showSolution();
         }

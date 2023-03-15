@@ -3,14 +3,10 @@ package com.wheel.client;
 import com.apps.util.SplashApp;
 import com.wheel.app.WheelOfFortune;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 class Main implements SplashApp {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Main app = new Main();
-//        app.welcome("images/logo.jpg");
+        app.welcome("images/logo.jpg");
         app.start();
     }
 
