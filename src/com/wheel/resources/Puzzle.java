@@ -61,12 +61,12 @@ public class Puzzle {
         this.timesUsed = timesUsed;
     }
 
-    public boolean checkLetter(Letter letter) {
-        boolean result = false;
-        if (puzzle.contains(letter.toString())) {
-            result = true;
-        }
-        return result;
+    public int checkLetter(String letter) {
+//        int result = false;
+//        if (puzzle.contains(letter.toString())) {
+//            result = true;
+//        }
+        return puzzle.split(letter).length - 1;
     }
 
     public String getPuzzle() {
