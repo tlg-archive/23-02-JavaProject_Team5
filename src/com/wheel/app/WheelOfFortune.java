@@ -17,6 +17,8 @@ public class WheelOfFortune {
     public void play() {
         board.displayBanner();
         players = host.getPlayers();
+        board.setPlayers(players);
+        host.setBoard(board);
         int rounds = host.getRounds();
         int round = 1;
         boolean gameOver = false;
@@ -30,13 +32,16 @@ public class WheelOfFortune {
             board.revealBoard();
             Wheel wheel = new Wheel();
 
-            int index = 0;
+            int playerIndex = 0;
             while (!roundOver) {
                 //System.out.println("We are in round: " + (round + 1));
-                roundOver = host.winOnTurn(players.get(index), wheel);
+                board.markCurrentPlayer(playerIndex);
+                Console.clear();
+                board.showSolution();
+                roundOver = host.winOnTurn(players.get(playerIndex), wheel);
 
-                index++;
-                if (index == players.size()) index = 0;
+                playerIndex++;
+                if (playerIndex == players.size()) playerIndex = 0;
             }
             round++;
 

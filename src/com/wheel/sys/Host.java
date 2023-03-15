@@ -1,5 +1,6 @@
 package com.wheel.sys;
 
+import com.apps.util.Console;
 import com.apps.util.Prompter;
 import com.wheel.resources.Consonant;
 import com.wheel.resources.Puzzle;
@@ -23,6 +24,7 @@ public class Host {
 
     //PUT THIS SOMEWHERE ELSE
     private Prompter prompter = new Prompter(new Scanner(System.in));
+    private Board board;
 
 
     public void assignPrompter(Prompter prompter){
@@ -41,7 +43,10 @@ public class Host {
         int nPlayers = Integer.parseInt(prompter.prompt("Please enter the number of players: \n","[2-5]", "Must be between 2 and 5."));
         for(int i = 0; i < nPlayers; i++){
             //prompt for input
-            String name = prompter.prompt("Please enter name of player " + (i + 1) +" \n");
+            String name = prompter.prompt("Please enter name of player " + (i + 1) +" \n", "^.{0,9}$", "Names are limited to 9 characters.");
+            if(name.length() == 0){
+                name = "Player" + (i + 1);
+            }
             players.add(new Player(name));
 
         }
@@ -70,6 +75,7 @@ public class Host {
                 player.goBankrupt();
                 System.out.println("Oh no! You lost all of your money so far for this round!");
             }
+            prompter.prompt("Press enter to continue.");
         }
         return result;
     }
@@ -85,6 +91,9 @@ public class Host {
         } else {
             guess = prompter.prompt("Guess a consonant: ", "^(?!.*[aeiouAEIOU])[a-zA-Z]$", "You can only provide a consonant.");
         }
+
+        Console.clear();
+        board.showSolution();
         boolean solvedPuzzle = false;
         //Check if guess is correct
         boolean correct = (wedge == null)? puzzle.checkLetter(Vowel.valueOf(guess.toUpperCase())) :
@@ -98,7 +107,9 @@ public class Host {
                 int num = 1;// Get number of times it appears in the puzzle
                 player.gainMoney(num * wedge.value());
             }
-            System.out.println("You have $" + player.getRoundBalance());
+            //System.out.println("You have $" + player.getRoundBalance());
+            Console.clear();
+            board.showSolution();
             //The player can spin, buy a vowel, or try to solve
 
             StringBuilder prompt = new StringBuilder();
@@ -148,6 +159,10 @@ public class Host {
 
     public Puzzle getPuzzle() {
         return puzzle;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 //    public Host(){
 //        players = new ArrayList<>();
