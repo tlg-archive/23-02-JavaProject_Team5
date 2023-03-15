@@ -17,10 +17,12 @@ import java.util.List;
 
 public class Board {
     List<String> banner = new ArrayList<>(); //Read banner from file
-    List<Letter> wrongGuesses = new ArrayList<>();
+    List<Letter> wrongSolutionGuesses = new ArrayList<>();
     List<String> boardLines = loadBoardLinesFromFile();
     BoardPuzzleManager manager;
     List<Player> players;
+    private StringBuilder correctGuesses = new StringBuilder();
+    StringBuilder wrongGuesses = new StringBuilder();
 
 
     Puzzle currentPuzzle;
@@ -161,9 +163,8 @@ public class Board {
             leftPadding = base.substring(0, paddingLength);
             rightPadding = base.substring(baseLength - paddingLength);
         }
-        String paddedOverlay = leftPadding + overlay + rightPadding;
 
-            return paddedOverlay;
+        return leftPadding + overlay + rightPadding;
     }
 
     private String solutionLine(String[] puzzleWords) {
@@ -179,7 +180,11 @@ public class Board {
                 sb.append("|");
             }
         }
-        return sb.toString();
+        return maskSolutionLine(sb.toString());
+    }
+
+    private String maskSolutionLine(String line){
+        return line.replaceAll(getAnswerMask(),"▓");
     }
 
     private void topFiveLines() {
@@ -239,6 +244,7 @@ public class Board {
 
     public void updateRound(Integer round){
         boardLines.set(13,boardLines.get(13).replaceAll("\\d", round.toString()));
+        correctGuesses = new StringBuilder();
     }
 
     private void updateRoundMoney(){
@@ -269,5 +275,14 @@ public class Board {
         String padding = " ".repeat(paddingBefore) + " ".repeat(paddingAfter);
         return padding.substring(0, paddingBefore) + input + padding.substring(paddingBefore);
 
+    }
+
+    public void recordCorrectGuess(String guess){
+        correctGuesses.append(guess);
+        System.out.println(correctGuesses);
+    }
+
+    private String getAnswerMask(){
+        return "[^-?░|" + correctGuesses.toString() + "]";
     }
 }
