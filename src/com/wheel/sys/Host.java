@@ -40,7 +40,7 @@ public class Host {
     public List<Player> getPlayers() {
         ArrayList<Player> players = new ArrayList<>();
         //prompt number of players
-        int nPlayers = Integer.parseInt(prompter.prompt("Please enter the number of players: \n","[2-5]", "Must be between 2 and 5."));
+        int nPlayers = Integer.parseInt(prompter.prompt("Please enter the number of players: \n","[2-3]", "Must be between 2 and 3."));
         for(int i = 0; i < nPlayers; i++){
             //prompt for input
             String name = prompter.prompt("Please enter name of player " + (i + 1) +" \n", "^.{0,9}$", "Names are limited to 9 characters.");
@@ -85,11 +85,13 @@ public class Host {
         String guess;
         int vowelCost = 250;
         if(wedge == null){
-            guess = prompter.prompt("Guess a vowel: \n", "[aeiouAEIOU]", "You paid for a vowel, so gimme one.\n");
+            guess = prompter.prompt("Guess a vowel: \n", "[aeiouAEIOU]",
+                    "You paid for a vowel, so gimme one.\n").toUpperCase();
             System.out.println(guess);
 
         } else {
-            guess = prompter.prompt("Guess a consonant: ", "^(?!.*[aeiouAEIOU])[a-zA-Z]$", "You can only provide a consonant.");
+            guess = prompter.prompt("Guess a consonant: ", "^(?!.*[aeiouAEIOU])[a-zA-Z]$",
+                    "You can only provide a consonant.").toUpperCase();
         }
 
         Console.clear();
@@ -99,6 +101,9 @@ public class Host {
         boolean correct = (wedge == null)? puzzle.checkLetter(Vowel.valueOf(guess.toUpperCase())) :
                 puzzle.checkLetter(Consonant.valueOf(guess.toUpperCase()));
         if(correct){
+            board.recordCorrectGuess(guess);
+            Console.clear();
+            board.showSolution();
             if(wedge == null){
                 //this is the case where they buy a vowel
             } else if (wedge instanceof WedgeGood){
