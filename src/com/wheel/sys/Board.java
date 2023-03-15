@@ -1,6 +1,5 @@
 package com.wheel.sys;
 
-import com.apps.util.Console;
 import com.wheel.resources.Letter;
 import com.wheel.resources.Puzzle;
 
@@ -21,6 +20,7 @@ public class Board {
     List<Letter> wrongGuesses = new ArrayList<>();
     List<String> boardLines = loadBoardLinesFromFile();
     BoardPuzzleManager manager;
+    List<Player> players;
 
 
     Puzzle currentPuzzle;
@@ -139,13 +139,13 @@ public class Board {
             System.out.println(boardLines.get(12));
             System.out.println(boardLines.get(13));
         }
-        System.out.println(boardLines.get(14));
-        System.out.println(boardLines.get(15));
+        updateRoundMoney();
+        for(int i = 14; i <= 20; i++){
+            System.out.println(boardLines.get(i));
+        }
     }
 
-    public void updateRound(Integer round){
-        boardLines.set(13,boardLines.get(13).replaceAll("\\d", round.toString()));
-    }
+
 
     private String overlaySolution(String base, String overlay){
         int baseLength = base.length();
@@ -220,5 +220,54 @@ public class Board {
         for(int i = 0; i < num; i++){
             System.out.printf(" ");
         }
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+        StringBuilder sb = new StringBuilder();
+        sb.append("║    ");
+        int count = 0;
+        for(var player : players){
+            sb.append(padBottomBracket(player.getName()));
+            count++;
+            if(count < 2) sb.append("|");
+        }
+        if(players.size() == 2) sb.append("|         ");
+        sb.append("    ║");
+        boardLines.set(17, sb.toString());
+    }
+
+    public void updateRound(Integer round){
+        boardLines.set(13,boardLines.get(13).replaceAll("\\d", round.toString()));
+    }
+
+    private void updateRoundMoney(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("║    ");
+        int count = 0;
+        for(var player : players){
+            sb.append(padBottomBracket("$" + player.getRoundBalance()));
+            count++;
+            if(count < 2) sb.append("|");
+        }
+        if(players.size() == 2) sb.append("|         ");
+        sb.append("    ║");
+        boardLines.set(18, sb.toString());
+    }
+
+    public void markCurrentPlayer(int playerIndex) {
+        String old = "║                                     ║";
+        int index = (playerIndex + 1) * 10 - 1;
+        String updated = old.substring(0, index) + "*" + old.substring(index + 1);
+        boardLines.set(16,updated);
+    }
+
+    private String padBottomBracket(String input){
+        int paddingLength = 9 - input.length();
+        int paddingBefore = paddingLength / 2;
+        int paddingAfter = paddingLength - paddingBefore;
+        String padding = " ".repeat(paddingBefore) + " ".repeat(paddingAfter);
+        return padding.substring(0, paddingBefore) + input + padding.substring(paddingBefore);
+
     }
 }
