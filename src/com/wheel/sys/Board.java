@@ -1,6 +1,5 @@
 package com.wheel.sys;
 
-import com.wheel.resources.Letter;
 import com.wheel.resources.Puzzle;
 
 import java.io.IOException;
@@ -17,7 +16,6 @@ import java.util.List;
 
 public class Board {
     List<String> banner = new ArrayList<>(); //Read banner from file
-    List<Letter> wrongSolutionGuesses = new ArrayList<>();
     List<String> boardLines = loadBoardLinesFromFile();
     BoardPuzzleManager manager;
     List<Player> players;
@@ -41,9 +39,7 @@ public class Board {
         return new Board();
     }
 
-    public void revealLetter(Letter letter){
-        //update the board to show the letter
-    }
+
 
     public void displayBanner(){
         //Initial startup banner
@@ -56,27 +52,8 @@ public class Board {
         //create transition from banner to board
     }
 
-    public boolean isSolution(String solution){
-        boolean solved = false;
-        //delegate the solving to the puzzle.
-        if(solved){
-            revealSolution();
-        }
-        return solved;
-    }
 
-    void revealSolution(){
-        //This should show all of the letters in the solution.
-    }
 
-    public boolean isCorrect(Letter guess){
-        boolean correct = false;
-        //logic here
-        if(correct){
-            revealLetter(guess);
-        }
-        return correct;
-    }
 
     public void displayPlayers(){
         // player information on bottom of board. Name, number, and amount of money
@@ -276,6 +253,6 @@ public class Board {
     }
 
     private String getAnswerMask(){
-        return "[^-?░|" + correctGuesses.toString() + "]";
+        return "[^-?!░|" + correctGuesses.toString() + "]";
     }
 }

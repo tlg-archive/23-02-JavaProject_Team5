@@ -2,15 +2,12 @@ package com.wheel.sys;
 
 import com.apps.util.Console;
 import com.apps.util.Prompter;
-import com.wheel.resources.Consonant;
 import com.wheel.resources.Puzzle;
-import com.wheel.resources.Vowel;
 import com.wheel.resources.wedge.Wedge;
 import com.wheel.resources.wedge.WedgeGood;
 import com.wheel.resources.wedge.WedgeMoney;
 import static com.wheel.resources.wedge.WedgeBad.*;
 
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -1,7 +1,5 @@
 package com.wheel.resources;
 
-import com.wheel.sys.WrongGuesses;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,12 +63,7 @@ public class Puzzle {
 
 
     public int checkLetter(String letter) {
-//        int result = false;
-//        if (puzzle.contains(letter.toString())) {
-//            result = true;
-//        }
         return puzzle.split(letter).length - 1;
-
     }
 
     public String getPuzzle() {
