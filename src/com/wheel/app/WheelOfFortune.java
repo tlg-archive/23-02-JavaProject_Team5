@@ -43,6 +43,9 @@ public class WheelOfFortune {
                 playerIndex++;
                 if (playerIndex == players.size()) playerIndex = 0;
             }
+            for (var player : players) {
+                player.goBankrupt();
+            }
             round++;
 
         }

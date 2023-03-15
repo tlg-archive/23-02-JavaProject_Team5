@@ -14,7 +14,7 @@ public class HostTest {
     Host host = null;
 
     @Before
-    public void initialize(){
+    public void initialize() {
         host = new Host();
         host.generatePuzzle();
 
@@ -38,7 +38,7 @@ public class HostTest {
     public void getRounds() throws FileNotFoundException {
         String file = "test/consoleInputs/getRounds.txt";
         host.assignPrompter(new Prompter(new Scanner(new FileInputStream(file))));
-        assertEquals(4,host.getRounds());
+        assertEquals(4, host.getRounds());
     }
 
     @Test

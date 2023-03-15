@@ -1,6 +1,6 @@
 package com.wheel.resources.wedge;
 
-public enum WedgeMoney implements Wedge{
+public enum WedgeMoney implements Wedge {
     $500(500),
     $550(550),
     $600(600),
@@ -12,7 +12,8 @@ public enum WedgeMoney implements Wedge{
     $900(900),
     TOP_VALUE(2500);
     private final int value;
-    private WedgeMoney(int value){
+
+    private WedgeMoney(int value) {
         this.value = value;
     }
 

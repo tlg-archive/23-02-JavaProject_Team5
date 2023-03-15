@@ -10,9 +10,8 @@ public class Player {
     public static int numberPlayers = 0;
 
     private String name;
-    private int playerNumber;
     private int roundBalance;
-    private Double gameBalance;
+    private int gameBalance;
 
     Collection<Wedge> tokens = new ArrayList<>();
 
@@ -20,37 +19,16 @@ public class Player {
         this.name = name;
 
     }
-    public Player(){
-        numberPlayers++;
-        playerNumber = numberPlayers;
-    }
 
-    public void gainToken(Wedge wedge){
+
+    public void gainToken(Wedge wedge) {
         tokens.add(wedge);
     }
 
-    public void gainMoney(int money){
+    public void gainMoney(int money) {
         roundBalance += money;
     }
 
-    public Wedge spin(Wheel wheel){
-        return wheel.getRandomWedge();
-    }
-
-    public void guess(){
-
-    }
-    public void buyVowel(){
-
-
-    }
-    public void solve(){
-
-    }
-
-    public int getPlayerNumber() {
-        return playerNumber;
-    }
 
     public String getName() {
         return name;
@@ -64,8 +42,12 @@ public class Player {
         return roundBalance;
     }
 
-    public Double getGameBalance() {
+    public int getGameBalance() {
         return gameBalance;
+    }
+
+    public void addToGameBalance(int gameBalance) {
+        this.gameBalance += gameBalance;
     }
 
     public Collection<Wedge> getTokens() {
@@ -73,8 +55,8 @@ public class Player {
     }
 
     public String toString() {
-        return String.format("%s: PlayerNumber:%s Name:%s, RoundBalance:%s , GameBalance=%s ",
-                getClass(), getPlayerNumber(), getName(), getRoundBalance(), getGameBalance());
+        return String.format("%s: Name:%s, RoundBalance:%s , GameBalance=%s ",
+                getClass(), getName(), getRoundBalance(), getGameBalance());
     }
 
     public void goBankrupt() {
