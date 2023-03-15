@@ -73,6 +73,8 @@ public class Host {
         } else {
             if(wedge == BANKRUPT){
                 player.goBankrupt();
+                Console.clear();
+                board.showSolution();
                 System.out.println("Oh no! You lost all of your money so far for this round!");
             }
             prompter.prompt("Press enter to continue.");
@@ -98,9 +100,8 @@ public class Host {
         board.showSolution();
         boolean solvedPuzzle = false;
         //Check if guess is correct
-        boolean correct = (wedge == null)? puzzle.checkLetter(Vowel.valueOf(guess.toUpperCase())) :
-                puzzle.checkLetter(Consonant.valueOf(guess.toUpperCase()));
-        if(correct){
+        int numTimesInPuzzle = puzzle.checkLetter(guess.toUpperCase());
+        if(numTimesInPuzzle > 0){
             board.recordCorrectGuess(guess);
             Console.clear();
             board.showSolution();
@@ -109,8 +110,7 @@ public class Host {
             } else if (wedge instanceof WedgeGood){
                 player.gainToken(wedge);
             } else {
-                int num = 1;// Get number of times it appears in the puzzle
-                player.gainMoney(num * wedge.value());
+                player.gainMoney(numTimesInPuzzle * wedge.value());
             }
             //System.out.println("You have $" + player.getRoundBalance());
             Console.clear();
@@ -145,6 +145,12 @@ public class Host {
                 } else if ("P".equalsIgnoreCase(choice)){
                     String solutionGuess = prompter.prompt("Input your guess:");
                     solvedPuzzle = puzzle.checkSolution(solutionGuess);
+                    if(solvedPuzzle){
+                        Console.clear();
+                        board.recordCorrectGuess(solutionGuess);
+                        board.showSolution();
+                        prompter.prompt("You solved the puzzle! Press enter to continue.");
+                    }
                 }
             }
 

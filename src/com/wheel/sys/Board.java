@@ -83,13 +83,6 @@ public class Board {
 
     }
 
-    public void updateBoard(String guess){
-
-    }
-
-    public void updateBoard(){
-
-    }
 
     public void showSolution(){
         topFiveLines();
