@@ -3,7 +3,9 @@ package com.wheel.sys;
 import com.apps.util.Console;
 import com.wheel.resources.Puzzle;
 import com.wheel.resources.myColors;
+
 import static com.wheel.resources.myColors.*;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -53,7 +55,7 @@ public class Board {
         for (int i = bannerLines.size() - 1; i >= 0; i--) {
             Console.clear();
 
-            for(int j = i; j < bannerLines.size(); j++){
+            for (int j = i; j < bannerLines.size(); j++) {
                 System.out.println("\u001b[38;5;220m" + bannerLines.get(j) + "\033[0m");
 
 
@@ -63,22 +65,35 @@ public class Board {
         //Initial startup banner
     }
 
-    public void displayRound(String roundNumber) {
+    public void displayRound(int round) {
+        long flashPauseDuration = 300L;
+        String roundNumber = "round" + round + ".txt";
         List<String> roundLines = null;
         try {
-               roundLines = Files.readAllLines(Path.of("roundNumbers/" + roundNumber));
-                for (int i = roundLines.size() - 1; i >= 0; i--) {
-                    Console.clear();
-                    for (int j = 1; j < roundLines.size(); j++) {
-                        System.out.println(roundLines.get(j));
-                    }
-                    Console.pause(100L);
-                }
-
-
+            roundLines = Files.readAllLines(Path.of("roundNumbers/" + roundNumber));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        for (int i = roundLines.size() - 1; i >= 0; i--) {
+            Console.clear();
+            for (int j = i; j < roundLines.size(); j++) {
+                System.out.println(roundLines.get(j));
+            }
+            Console.pause(100L);
+        }
+        Console.pause(500L);
+        for(int i = 0; i < round; i++){
+            Console.clear();
+            Console.pause(flashPauseDuration);
+            for(var line : roundLines){
+                System.out.println(line);
+            }
+            Console.pause(flashPauseDuration);
+            Console.clear();
+            Console.pause(flashPauseDuration);
+        }
+
+
     }
 
 
@@ -153,8 +168,8 @@ public class Board {
     }
 
 
-    private String colorize(String line){
-        String result = line.replaceAll("║",FBLUE.value() + "║" + FGOLD.value())
+    private String colorize(String line) {
+        String result = line.replaceAll("║", FBLUE.value() + "║" + FGOLD.value())
                 .replaceAll("╗", FBLUE.value() + "╗" + FGOLD.value())
                 .replaceAll("╔", FBLUE.value() + "╔" + FGOLD.value()) //▓
                 .replaceAll("═", FBLUE.value() + "═" + FGOLD.value())
@@ -164,9 +179,9 @@ public class Board {
                 .replaceAll("▓", ESCAP.value() + "▓");
         String[] tokens = result.split("\\|");
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < tokens.length; i++){
+        for (int i = 0; i < tokens.length; i++) {
             sb.append(tokens[i]);
-            if(i < tokens.length - 1) sb.append(FGREN.value() + "|" + FGOLD.value());
+            if (i < tokens.length - 1) sb.append(FGREN.value() + "|" + FGOLD.value());
         }
 //        return result;
         return sb.toString();
@@ -183,8 +198,8 @@ public class Board {
             leftPadding = base.substring(0, paddingLength - 1);
             rightPadding = base.substring(baseLength - paddingLength - 1);
         } else {
-            leftPadding = base.substring(0, paddingLength-2);
-            rightPadding = base.substring(baseLength - paddingLength-2);
+            leftPadding = base.substring(0, paddingLength - 2);
+            rightPadding = base.substring(baseLength - paddingLength - 2);
         }
 
         return colorize(leftPadding + overlay + rightPadding);

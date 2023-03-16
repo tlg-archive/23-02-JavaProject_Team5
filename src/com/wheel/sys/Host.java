@@ -9,6 +9,9 @@ import com.wheel.resources.wedge.WedgeMoney;
 
 import static com.wheel.resources.wedge.WedgeBad.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -199,4 +202,15 @@ public class Host {
         this.board = board;
     }
 
+    public void showWelcomeMessage() {
+        List<String> welcomeMessage = new ArrayList<>();
+        try {
+            welcomeMessage = Files.readAllLines(Path.of("textFiles/welcomeMessage.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for(var line : welcomeMessage){
+            System.out.println(line);
+        }
+    }
 }
