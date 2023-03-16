@@ -25,4 +25,9 @@ public class BoardTest {
         }
 //        board.showSolution();
     }
+
+    @Test
+    public void displayBanner(){
+        board.displayBanner();
+    }
 }

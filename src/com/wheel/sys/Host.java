@@ -19,6 +19,7 @@ public class Host {
     private Wheel wheel;
     private List<Player> players;
     private int currentPlayerIndex;
+    private StringBuilder consonantRegex = new StringBuilder();
 
     //PUT THIS SOMEWHERE ELSE
     private Prompter prompter = new Prompter(new Scanner(System.in));
@@ -65,6 +66,8 @@ public class Host {
 //        System.out.println("It's " + players. + "'s turn!");
         prompter.prompt(player.getName() + ", press enter to spin the wheel.");
         Wedge wedge = wheel.getRandomWedge();
+        Console.clear();
+        board.showSolution();
         System.out.println(player.getName() + ", you landed on " + wedge);
         if (wedge instanceof WedgeMoney || wedge instanceof WedgeGood) {
             result = processGuess(wedge, player);
@@ -80,6 +83,15 @@ public class Host {
         return result;
     }
 
+    private String validConsonantRegex(){
+        return "^(?!.*[aeiouAEIOU" + consonantRegex + "])[a-zA-Z]$";
+    }
+
+    private void updateCorrectGuesses(String correctGuess){
+        consonantRegex.append(correctGuess.toUpperCase());
+        consonantRegex.append(correctGuess.toLowerCase());
+    }
+
     boolean processGuess(Wedge wedge, Player player) {
         //prompt for guess
         String guess;
@@ -90,8 +102,8 @@ public class Host {
 //            System.out.println(guess);
 
         } else {
-            guess = prompter.prompt(player.getName() + ", guess a consonant: ", "^(?!.*[aeiouAEIOU])[a-zA-Z]$",
-                    "\nYou can only provide a consonant.").toUpperCase();
+            guess = prompter.prompt(player.getName() + ", guess a consonant: ", validConsonantRegex(),
+                    "Provide a consonant that isn't on the board.\n").toUpperCase();
         }
 
         Console.clear();
@@ -101,6 +113,7 @@ public class Host {
         int numTimesInPuzzle = puzzle.checkLetter(guess.toUpperCase());
         if (numTimesInPuzzle > 0) {
             board.recordCorrectGuess(guess);
+            updateCorrectGuesses(guess);
             Console.clear();
             board.showSolution();
             if (wedge == null) {
@@ -138,10 +151,10 @@ public class Host {
             board.showSolution();
 
             if ("W".equalsIgnoreCase(choice)) {
-                winOnTurn(player, wheel);
+                solvedPuzzle = winOnTurn(player, wheel);
             } else if ("V".equalsIgnoreCase(choice)) {
                 player.deductMoney(vowelCost);
-                processGuess(null, player);
+                solvedPuzzle = processGuess(null, player);
             } else if ("P".equalsIgnoreCase(choice)) {
                 String solutionGuess = prompter.prompt(player.getName() + ", Input your guess: ").toUpperCase();
                 solvedPuzzle = puzzle.checkSolution(solutionGuess);
