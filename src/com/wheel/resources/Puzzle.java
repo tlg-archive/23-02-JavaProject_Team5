@@ -12,12 +12,11 @@ public class Puzzle {
     private final String category;
     private int timesUsed;
 
-
     public static class PuzzleFactory {
         private static final List<Puzzle> puzzleList = readPuzzlesFromFile();
         private static List<String> lines = null;
 
-        public static List<Puzzle> readPuzzlesFromFile() {
+        private static List<Puzzle> readPuzzlesFromFile() {
             List<Puzzle> puzzles = new ArrayList<>();
             try {
                 lines = Files.readAllLines(Path.of("puzzles/puzzles.csv"));
@@ -29,22 +28,21 @@ public class Puzzle {
                 String[] tokens = line.split(",");
                 Puzzle puzzle = new Puzzle(tokens[0], tokens[1], Integer.parseInt(tokens[2]));
                 puzzles.add(puzzle);
-
             }
-
             return puzzles;
-
         }
 
         public static Puzzle getRandomPuzzle() {
-//            System.out.println("PuzzleList size " + puzzleList.size());
             Random random = new Random();
             int index = random.nextInt(puzzleList.size());
-//            System.out.println("Index = " + index);
             return puzzleList.get(index);
         }
 
-
+        /**
+         * To be implemented later.
+         *
+         * @param puzzle
+         */
         public static void markPuzzleAsUsed(Puzzle puzzle) {
             int index = puzzleList.indexOf(puzzle);
             if (index != -1) {

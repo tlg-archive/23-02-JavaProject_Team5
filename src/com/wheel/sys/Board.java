@@ -17,20 +17,21 @@ import java.util.List;
  * Places where there are words will be filled with "▓".
  * Blanks will be filled with "░".
  */
-
 public class Board {
+    private static Board board = null;
     private List<String> banner = new ArrayList<>(); //Read banner from file
     private List<String> boardLines = loadLinesFromFile("textFiles/boardBase.txt");
     private BoardPuzzleManager manager;
     private List<Player> players;
     private StringBuilder correctGuesses = new StringBuilder();
     private Integer currentRound;
-
-//    StringBuilder wrongGuesses = new StringBuilder();
-
-
     private Puzzle currentPuzzle;
 
+    private Board() {
+
+    }
+
+    // Static methods
     private static List<String> loadLinesFromFile(String filePath) {
         List<String> lines = null;
         try {
@@ -40,6 +41,15 @@ public class Board {
         }
         return lines;
     }
+
+    public static Board getInstance() {
+        if (board == null) {
+            board = new Board();
+        }
+        return board;
+    }
+
+    // Public methods
 
     public void showRoundWinner(Player roundWinner) {
         String filePath = "textFiles/roundWinner.txt";
@@ -65,30 +75,6 @@ public class Board {
             System.out.println(colorize(lines.get(i)));
         }
     }
-
-    private String overlay(String base, String overlay) {
-        int baseLength = base.length();
-        int overlayLength = overlay.length();
-        int paddingLength = (baseLength - overlayLength) / 2;
-
-        String leftPadding;
-        String rightPadding;
-
-        leftPadding = base.substring(0, paddingLength);
-        if (overlay.length() % 2 == 0) {
-            rightPadding = base.substring(baseLength - paddingLength - 1);
-        }
-        else{
-            rightPadding = base.substring(baseLength - paddingLength );
-        }
-        return colorize(leftPadding + overlay + rightPadding);
-    }
-
-
-    public static Board getInstance() {
-        return new Board();
-    }
-
 
     public void displayBanner() {
         List<String> bannerLines = null;
@@ -138,15 +124,6 @@ public class Board {
             System.out.println(line);
         }
     }
-
-
-    /*
-     * Possible extra
-     */
-    public void revealBoard() {
-        //create transition from banner to board
-    }
-
 
     public void update() {
         topFiveLines();
@@ -204,6 +181,59 @@ public class Board {
         }
     }
 
+    public void markCurrentPlayer(int playerIndex) {
+        String old = "║                                     ║";
+        int index = (playerIndex + 1) * 10 - 1;
+        String updated = old.substring(0, index) + "*" + old.substring(index + 1);
+        boardLines.set(16, updated);
+    }
+
+    public void showGameWinner(List<Player> players) {
+        List<Player> winners = new ArrayList<>(players);
+        winners.sort(Comparator.comparing(Player::getGameBalance).reversed());
+        String[] overlayLines = new String[14];
+        Arrays.fill(overlayLines, "");
+        for (int i = 0; i < winners.size(); i++) {
+            int j = i * 3;
+            overlayLines[j] = winners.get(i).getName();
+            overlayLines[j + 1] = "$" + Integer.toString(winners.get(i).getGameBalance());
+            overlayLines[j + 2] = "";
+        }
+        Console.clear();
+        List<String> lines = loadLinesFromFile("textFiles/endOfGame.txt");
+        topFiveLines();
+        categoryLineFive(" WE HAVE A WINNER!");
+        System.out.println(colorize(lines.get(0)));
+        System.out.println(colorize(lines.get(1)));
+        for (int i = 2; i < 11; i++) {
+            System.out.println(overlay(lines.get(i), overlayLines[i - 2]));
+        }
+        System.out.println(overlay(lines.get(11), "THANKS FOR PLAYING"));
+        System.out.println(overlay(lines.get(12), "$$ WHEEL OF FORTUNE $$"));
+        for (int i = 14; i < lines.size(); i++) {
+            System.out.println(colorize(lines.get(i)));
+        }
+
+    }
+
+
+    // Private helper methods
+    private String overlay(String base, String overlay) {
+        int baseLength = base.length();
+        int overlayLength = overlay.length();
+        int paddingLength = (baseLength - overlayLength) / 2;
+
+        String leftPadding;
+        String rightPadding;
+
+        leftPadding = base.substring(0, paddingLength);
+        if (overlay.length() % 2 == 0) {
+            rightPadding = base.substring(baseLength - paddingLength - 1);
+        } else {
+            rightPadding = base.substring(baseLength - paddingLength);
+        }
+        return colorize(leftPadding + overlay + rightPadding);
+    }
 
     private String colorize(String line) {
         String result = line.replaceAll("║", FBLUE.value() + "║" + FGOLD.value())
@@ -275,6 +305,40 @@ public class Board {
         System.out.printf(FBLUE.value() + "║\n");
     }
 
+    private void printSpaces(int num) {
+        for (int i = 0; i < num; i++) {
+            System.out.printf(" ");
+        }
+    }
+
+    private void updateRoundMoney() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("║    ");
+        int count = 0;
+        for (var player : players) {
+            sb.append(padBottomBracket("$" + player.getRoundBalance()));
+            count++;
+            if (count < 3) sb.append("|");
+        }
+        if (players.size() == 2) sb.append("         ");
+        sb.append("    ║");
+        boardLines.set(18, sb.toString());
+    }
+
+    private String padBottomBracket(String input) {
+        int paddingLength = 9 - input.length();
+        int paddingBefore = paddingLength / 2;
+        int paddingAfter = paddingLength - paddingBefore;
+        String padding = " ".repeat(paddingBefore) + " ".repeat(paddingAfter);
+        return padding.substring(0, paddingBefore) + input + padding.substring(paddingBefore);
+
+    }
+
+    private String getAnswerMask() {
+        return "[^-?!'&░|" + correctGuesses.toString() + "]";
+    }
+
+    // Public Setters and getters
 
     public Puzzle getCurrentPuzzle() {
         return currentPuzzle;
@@ -283,12 +347,6 @@ public class Board {
     public void setCurrentPuzzle(Puzzle currentPuzzle) {
         this.currentPuzzle = currentPuzzle;
         manager = new BoardPuzzleManager(currentPuzzle);
-    }
-
-    private void printSpaces(int num) {
-        for (int i = 0; i < num; i++) {
-            System.out.printf(" ");
-        }
     }
 
     public void setPlayers(List<Player> players) {
@@ -312,69 +370,14 @@ public class Board {
         correctGuesses = new StringBuilder();
     }
 
-    private void updateRoundMoney() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("║    ");
-        int count = 0;
-        for (var player : players) {
-            sb.append(padBottomBracket("$" + player.getRoundBalance()));
-            count++;
-            if (count < 3) sb.append("|");
-        }
-        if (players.size() == 2) sb.append("         ");
-        sb.append("    ║");
-        boardLines.set(18, sb.toString());
-    }
-
-    public void markCurrentPlayer(int playerIndex) {
-        String old = "║                                     ║";
-        int index = (playerIndex + 1) * 10 - 1;
-        String updated = old.substring(0, index) + "*" + old.substring(index + 1);
-        boardLines.set(16, updated);
-    }
-
-    private String padBottomBracket(String input) {
-        int paddingLength = 9 - input.length();
-        int paddingBefore = paddingLength / 2;
-        int paddingAfter = paddingLength - paddingBefore;
-        String padding = " ".repeat(paddingBefore) + " ".repeat(paddingAfter);
-        return padding.substring(0, paddingBefore) + input + padding.substring(paddingBefore);
-
-    }
-
     public void recordCorrectGuess(String guess) {
         correctGuesses.append(guess);
     }
 
-    private String getAnswerMask() {
-        return "[^-?!'&░|" + correctGuesses.toString() + "]";
-    }
-
-    public void showGameWinner(List<Player> players) {
-        List<Player> winners = new ArrayList<>(players);
-        winners.sort(Comparator.comparing(Player::getGameBalance).reversed());
-        String[] overlayLines = new String[14];
-        Arrays.fill(overlayLines, "");
-        for(int i = 0; i < winners.size(); i++){
-            int j = i * 3;
-            overlayLines[j] = winners.get(i).getName();
-            overlayLines[j+1] = "$" + Integer.toString(winners.get(i).getGameBalance());
-            overlayLines[j+2] = "";
-        }
-        Console.clear();
-        List<String> lines = loadLinesFromFile("textFiles/endOfGame.txt");
-        topFiveLines();
-        categoryLineFive(" WE HAVE A WINNER!");
-        System.out.println(colorize(lines.get(0)));
-        System.out.println(colorize(lines.get(1)));
-        for(int i = 2; i < 11; i++){
-            System.out.println(overlay(lines.get(i), overlayLines[i - 2]));
-        }
-        System.out.println(overlay(lines.get(11),"THANKS FOR PLAYING"));
-        System.out.println(overlay(lines.get(12), "$$ WHEEL OF FORTUNE $$"));
-        for(int i = 14; i < lines.size(); i++){
-            System.out.println(colorize(lines.get(i)));
-        }
-
+    /*
+     * Possible extra
+     */
+    public void revealBoard() {
+        //create transition from banner to board
     }
 }
