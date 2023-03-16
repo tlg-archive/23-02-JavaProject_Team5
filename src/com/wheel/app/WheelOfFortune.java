@@ -6,7 +6,9 @@ import com.wheel.sys.Host;
 import com.wheel.sys.Player;
 import com.wheel.sys.Wheel;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class WheelOfFortune {
     Board board = Board.getInstance();
@@ -38,6 +40,12 @@ public class WheelOfFortune {
             Wheel wheel = new Wheel();
 
             int playerIndex = 0;
+
+            playerIndex = IntStream.range(0, players.size())
+                    .boxed()
+                    .max(Comparator.comparing(i -> players.get(i).getGameBalance()))
+                    .orElse(-1);
+
             while (!roundOver) {
                 //System.out.println("We are in round: " + (round + 1));
                 board.markCurrentPlayer(playerIndex);
