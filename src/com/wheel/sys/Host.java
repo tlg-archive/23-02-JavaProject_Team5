@@ -173,10 +173,7 @@ public class Host {
                     System.out.println(player.getName() + " solved the puzzle!");
                     Console.pause(2000L);
                     Console.clear();
-                    System.out.println(player.getName() + " banked " + player.getGameBalance() +
-                            ". Let's clear the board and all players' money for the round.");
-                    Console.pause(2000L);
-                    Console.clear();
+
                 }
             }
         }

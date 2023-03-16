@@ -47,4 +47,9 @@ public class BoardTest {
     public void displayRound() {
         board.displayRound(1);
     }
+
+    @Test
+    public void showRoundWinner() {
+        board.showRoundWinner(new Player("Stephen"));
+    }
 }
