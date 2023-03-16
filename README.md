@@ -1,3 +1,9 @@
-# JavaProject_TeamN
+# JavaProject_Team5
 
-Template repo for Java project
+Fortune Hunters
+
+Wheel Of Fortune Game 
+
+Team Members
+* Stephen
+* Chad
