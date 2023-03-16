@@ -1,5 +1,6 @@
 package com.wheel.sys;
 
+import com.apps.util.Console;
 import com.wheel.resources.Puzzle;
 
 import java.io.IOException;
@@ -41,6 +42,19 @@ public class Board {
 
 
     public void displayBanner() {
+        List<String> bannerLines = null;
+        try {
+            bannerLines = Files.readAllLines(Path.of("textFiles/banner.txt"));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        for(int i = bannerLines.size()-1; i >= 0; i--){
+            Console.clear();
+            for(int j = i; j < bannerLines.size(); j++){
+                System.out.println(bannerLines.get(j));
+            }
+            Console.pause(100L);
+        }
         //Initial startup banner
     }
 

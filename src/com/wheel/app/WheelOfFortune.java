@@ -40,6 +40,7 @@ public class WheelOfFortune {
                 board.showSolution();
                 roundOver = host.winOnTurn(players.get(playerIndex), wheel);
 
+
                 playerIndex++;
                 if (playerIndex == players.size()) playerIndex = 0;
             }
