@@ -25,6 +25,9 @@ public class WheelOfFortune {
         Console.clear();
 
         while (round <= rounds) {
+            String roundNumber = "round" + round + ".txt";
+            board.displayRound(roundNumber);
+            Console.clear();
             host.generatePuzzle();
             board.displayBoard(host.getPuzzle());
             boolean roundOver = false;
@@ -49,6 +52,7 @@ public class WheelOfFortune {
                 player.goBankrupt();
             }
             round++;
+
 
         }
     }

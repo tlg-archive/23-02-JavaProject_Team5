@@ -17,15 +17,16 @@ import java.util.List;
  */
 
 public class Board {
-    List<String> banner = new ArrayList<>(); //Read banner from file
-    List<String> boardLines = loadBoardLinesFromFile();
-    BoardPuzzleManager manager;
-    List<Player> players;
+    private List<String> banner = new ArrayList<>(); //Read banner from file
+    private List<String> boardLines = loadBoardLinesFromFile();
+    private BoardPuzzleManager manager;
+    private List<Player> players;
     private StringBuilder correctGuesses = new StringBuilder();
-    StringBuilder wrongGuesses = new StringBuilder();
+
+//    StringBuilder wrongGuesses = new StringBuilder();
 
 
-    Puzzle currentPuzzle;
+    private Puzzle currentPuzzle;
 
     private static List<String> loadBoardLinesFromFile() {
         List<String> lines = null;
@@ -46,18 +47,40 @@ public class Board {
         List<String> bannerLines = null;
         try {
             bannerLines = Files.readAllLines(Path.of("textFiles/banner.txt"));
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        for(int i = bannerLines.size()-1; i >= 0; i--){
+        for (int i = bannerLines.size() - 1; i >= 0; i--) {
             Console.clear();
+
             for(int j = i; j < bannerLines.size(); j++){
                 System.out.println("\u001b[38;5;220m" + bannerLines.get(j) + "\033[0m");
+
+
             }
             Console.pause(100L);
         }
         //Initial startup banner
     }
+
+    public void displayRound(String roundNumber) {
+        List<String> roundLines = null;
+        try {
+               roundLines = Files.readAllLines(Path.of("roundNumbers/" + roundNumber));
+                for (int i = roundLines.size() - 1; i >= 0; i--) {
+                    Console.clear();
+                    for (int j = 1; j < roundLines.size(); j++) {
+                        System.out.println(roundLines.get(j));
+                    }
+                    Console.pause(100L);
+                }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /*
      * Possible extra
