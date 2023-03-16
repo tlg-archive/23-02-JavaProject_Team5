@@ -32,6 +32,7 @@ public class WheelOfFortune {
             board.displayBoard(host.getPuzzle());
             boolean roundOver = false;
             board.updateRound(round);
+            host.clearCorrectGuesses();
             board.revealBoard();
             Wheel wheel = new Wheel();
 

@@ -63,7 +63,13 @@ public class Puzzle {
 
 
     public int checkLetter(String letter) {
-        return puzzle.split(letter).length - 1;
+        int count = 0;
+        int index = 0;
+        while ((index = puzzle.indexOf(letter, index)) != -1) {
+            count++;
+            index += letter.length();
+        }
+        return count;
     }
 
     public String getPuzzle() {

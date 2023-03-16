@@ -6,7 +6,7 @@ import com.wheel.app.WheelOfFortune;
 class Main implements SplashApp {
     public static void main(String[] args) {
         Main app = new Main();
-//        app.welcome("images/logo.jpg");
+        app.welcome("images/logo.jpg");
         app.start();
     }
 

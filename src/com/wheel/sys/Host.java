@@ -92,6 +92,10 @@ public class Host {
         consonantRegex.append(correctGuess.toLowerCase());
     }
 
+    public void clearCorrectGuesses(){
+        consonantRegex = new StringBuilder();
+    }
+
     boolean processGuess(Wedge wedge, Player player) {
         //prompt for guess
         String guess;
