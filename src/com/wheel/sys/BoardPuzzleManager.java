@@ -35,7 +35,7 @@ class BoardPuzzleManager {
         ArrayList<String> current = new ArrayList<>();
 
         int currentLength = 0;
-        int[] limits = {11,13,13,11};
+        int[] limits = {11,14,14,11};
         for (String word : words) {
 
             if (currentLength + word.length() > limits[lines.size()]) {
@@ -43,8 +43,8 @@ class BoardPuzzleManager {
                 current.clear();
                 currentLength = 0;
             }
-            current.add(word);
-            currentLength += word.length();
+            current.add(word.trim());
+            currentLength += word.length() + 1;
         }
         if(lines.isEmpty() || !current.isEmpty()){
             lines.add(current.toArray(new String[current.size()]));

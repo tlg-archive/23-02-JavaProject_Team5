@@ -2,7 +2,8 @@ package com.wheel.sys;
 
 import com.apps.util.Console;
 import com.wheel.resources.Puzzle;
-
+import com.wheel.resources.myColors;
+import static com.wheel.resources.myColors.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -51,7 +52,7 @@ public class Board {
         for(int i = bannerLines.size()-1; i >= 0; i--){
             Console.clear();
             for(int j = i; j < bannerLines.size(); j++){
-                System.out.println(bannerLines.get(j));
+                System.out.println("\u001b[38;5;220m" + bannerLines.get(j) + "\033[0m");
             }
             Console.pause(100L);
         }
@@ -102,10 +103,10 @@ public class Board {
                 mask = boardLines.get(13);
                 System.out.println(overlaySolution(mask, line1));
             } else {
-                System.out.println(boardLines.get(13));
+                System.out.println(colorize(boardLines.get(13)));
             }
         } else {
-            System.out.println(boardLines.get(7));
+            System.out.println(colorize(boardLines.get(7)));
             System.out.println(boardLines.get(8));
             String mask = boardLines.get(9);
             String line = solutionLine(puzzleWords.get(index++));
@@ -117,17 +118,36 @@ public class Board {
                 System.out.println(overlaySolution(mask, line));
 
             } else {
-                System.out.println(boardLines.get(11));
+                System.out.println(colorize(boardLines.get(11)));
             }
             System.out.println(boardLines.get(12));
-            System.out.println(boardLines.get(13));
+            System.out.println(colorize(boardLines.get(13)));
         }
         updateRoundMoney();
         for (int i = 14; i <= 20; i++) {
-            System.out.println(boardLines.get(i));
+            System.out.println(colorize(boardLines.get(i)));
         }
     }
 
+
+    private String colorize(String line){
+        String result = line.replaceAll("║",FBLUE.value() + "║" + FGOLD.value())
+                .replaceAll("╗", FBLUE.value() + "╗" + FGOLD.value())
+                .replaceAll("╔", FBLUE.value() + "╔" + FGOLD.value()) //▓
+                .replaceAll("═", FBLUE.value() + "═" + FGOLD.value())
+                .replaceAll("╝", FBLUE.value() + "╝" + FGOLD.value())
+                .replaceAll("╚", FBLUE.value() + "╚" + FGOLD.value())
+                .replaceAll("░", FGREN.value() + "░" + ESCAP.value())
+                .replaceAll("▓", ESCAP.value() + "▓");
+        String[] tokens = result.split("\\|");
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < tokens.length; i++){
+            sb.append(tokens[i]);
+            if(i < tokens.length - 1) sb.append(FGREN.value() + "|" + FGOLD.value());
+        }
+//        return result;
+        return sb.toString();
+    }
 
     private String overlaySolution(String base, String overlay) {
         int baseLength = base.length();
@@ -140,11 +160,12 @@ public class Board {
             leftPadding = base.substring(0, paddingLength - 1);
             rightPadding = base.substring(baseLength - paddingLength - 1);
         } else {
-            leftPadding = base.substring(0, paddingLength);
-            rightPadding = base.substring(baseLength - paddingLength);
+            leftPadding = base.substring(0, paddingLength-2);
+            rightPadding = base.substring(baseLength - paddingLength-2);
         }
 
-        return leftPadding + overlay + rightPadding;
+        return colorize(leftPadding + overlay + rightPadding);
+//        return leftPadding + overlay + rightPadding;
     }
 
     private String solutionLine(String[] puzzleWords) {
@@ -175,12 +196,12 @@ public class Board {
 
     private void categoryLineFive() {
         String category = currentPuzzle.getCategory();
-        System.out.printf("║");
+        System.out.printf(FBLUE.value() + "║");
         int leading = (36 - category.length()) / 2;
         printSpaces(leading);
-        System.out.printf(category);
+        System.out.printf(FGOLD.value() + category);
         printSpaces(37 - category.length() - leading);
-        System.out.printf("║\n");
+        System.out.printf(FBLUE.value() + "║\n");
     }
 
 
@@ -259,10 +280,10 @@ public class Board {
 
     public void recordCorrectGuess(String guess) {
         correctGuesses.append(guess);
-        //System.out.println(correctGuesses);
+        System.out.println(correctGuesses);
     }
 
     private String getAnswerMask() {
-        return "[^-?!░|" + correctGuesses.toString() + "]";
+        return "[^-?!'&░|" + correctGuesses.toString() + "]";
     }
 }
