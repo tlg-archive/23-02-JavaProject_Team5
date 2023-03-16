@@ -42,4 +42,9 @@ public class BoardTest {
     public void displayBanner(){
         board.displayBanner();
     }
+
+    @Test
+    public void displayRound() {
+        board.displayRound(1);
+    }
 }

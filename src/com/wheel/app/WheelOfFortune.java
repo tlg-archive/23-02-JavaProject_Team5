@@ -16,6 +16,7 @@ public class WheelOfFortune {
 
     public void play() {
         board.displayBanner();
+        host.showWelcomeMessage();
         players = host.getPlayers();
         board.setPlayers(players);
         host.setBoard(board);
@@ -25,8 +26,8 @@ public class WheelOfFortune {
         Console.clear();
 
         while (round <= rounds) {
-            String roundNumber = "round" + round + ".txt";
-            board.displayRound(roundNumber);
+
+            board.displayRound(round);
             Console.clear();
             host.generatePuzzle();
             board.displayBoard(host.getPuzzle());
