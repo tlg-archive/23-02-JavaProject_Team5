@@ -92,8 +92,9 @@ public class Board {
             Console.clear();
             Console.pause(flashPauseDuration);
         }
-
-
+        for(var line : roundLines){
+            System.out.println(line);
+        }
     }
 
 
