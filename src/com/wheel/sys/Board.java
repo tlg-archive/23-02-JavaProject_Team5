@@ -2,7 +2,6 @@ package com.wheel.sys;
 
 import com.apps.util.Console;
 import com.wheel.resources.Puzzle;
-import com.wheel.resources.myColors;
 
 import static com.wheel.resources.myColors.*;
 
@@ -20,7 +19,7 @@ import java.util.List;
 
 public class Board {
     private List<String> banner = new ArrayList<>(); //Read banner from file
-    private List<String> boardLines = loadBoardLinesFromFile();
+    private List<String> boardLines = loadLinesFromFile("textFiles/boardBase.txt");
     private BoardPuzzleManager manager;
     private List<Player> players;
     private StringBuilder correctGuesses = new StringBuilder();
@@ -30,15 +29,60 @@ public class Board {
 
     private Puzzle currentPuzzle;
 
-    private static List<String> loadBoardLinesFromFile() {
+    private static List<String> loadLinesFromFile(String filePath) {
         List<String> lines = null;
         try {
-            lines = Files.readAllLines(Path.of("textFiles/boardBase.txt"));
+            lines = Files.readAllLines(Path.of(filePath));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return lines;
     }
+
+    public void showRoundWinner(Player roundWinner) {
+        String filePath = "textFiles/roundWinner.txt";
+        List<String> lines = loadLinesFromFile(filePath);
+        String name = roundWinner.getName();
+        int roundBalance = roundWinner.getRoundBalance();
+        int gameBalance = roundWinner.getGameBalance();
+
+        topFiveLines();
+        categoryLineFive(" Round Winner");
+        for (int i = 0; i < 4; i++) {
+            System.out.println(colorize(lines.get(i)));
+        }
+        System.out.println(overlay(lines.get(4), " !!!" + name + "!!!"));
+        System.out.println(overlay(lines.get(5), "$" + roundBalance));
+        for (int i = 6; i < 12; i++) {
+            System.out.println(colorize(lines.get(i)));
+        }
+        System.out.println(overlay(lines.get(13), "Your Game Balance"));
+        System.out.println(overlay(lines.get(14), "$" + gameBalance));
+        for (int i = 15; i < lines.size(); i++) {
+            System.out.println(colorize(lines.get(i)));
+        }
+
+
+    }
+
+    private String overlay(String base, String overlay) {
+        int baseLength = base.length();
+        int overlayLength = overlay.length();
+        int paddingLength = (baseLength - overlayLength) / 2;
+
+        String leftPadding;
+        String rightPadding;
+
+        leftPadding = base.substring(0, paddingLength);
+        if (overlay.length() % 2 == 0) {
+            rightPadding = base.substring(baseLength - paddingLength - 1);
+        }
+        else{
+            rightPadding = base.substring(baseLength - paddingLength );
+        }
+        return colorize(leftPadding + overlay + rightPadding);
+    }
+
 
     public static Board getInstance() {
         return new Board();
@@ -82,17 +126,17 @@ public class Board {
             Console.pause(100L);
         }
         Console.pause(500L);
-        for(int i = 0; i < round; i++){
+        for (int i = 0; i < round; i++) {
             Console.clear();
             Console.pause(flashPauseDuration);
-            for(var line : roundLines){
+            for (var line : roundLines) {
                 System.out.println(line);
             }
             Console.pause(flashPauseDuration);
             Console.clear();
             Console.pause(flashPauseDuration);
         }
-        for(var line : roundLines){
+        for (var line : roundLines) {
             System.out.println(line);
         }
     }
@@ -114,7 +158,7 @@ public class Board {
 
     public void showSolution() {
         topFiveLines();
-        categoryLineFive();
+        categoryLineFive(currentPuzzle.getCategory());
         for (int i = 5; i < 7; i++) {
             System.out.println(boardLines.get(i));
         }
@@ -233,8 +277,7 @@ public class Board {
         }
     }
 
-    private void categoryLineFive() {
-        String category = currentPuzzle.getCategory();
+    private void categoryLineFive(String category) {
         System.out.printf(FBLUE.value() + "║");
         int leading = (36 - category.length()) / 2;
         printSpaces(leading);
