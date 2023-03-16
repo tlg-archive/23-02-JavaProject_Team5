@@ -7,14 +7,12 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class BoardTest {
     Board board = new Board();
+    List<Player> players = new ArrayList<>();
 
     @Before
     public void initialize() {
-        List<Player> players = new ArrayList<>();
         players.add(new Player("Stephen"));
         players.add(new Player("Chad"));
         players.add(new Player("Jay"));
@@ -33,7 +31,7 @@ public class BoardTest {
         for (int i = 0; i < 10; i++) {
             board.setCurrentPuzzle(Puzzle.PuzzleFactory.getRandomPuzzle());
             System.out.println(board.getCurrentPuzzle().getPuzzle());
-            board.showSolution();
+            board.update();
         }
 //        board.showSolution();
     }
@@ -51,5 +49,10 @@ public class BoardTest {
     @Test
     public void showRoundWinner() {
         board.showRoundWinner(new Player("Stephen"));
+    }
+
+    @Test
+    public void showGameWinner() {
+        board.showGameWinner(players);
     }
 }

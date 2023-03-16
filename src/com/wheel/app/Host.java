@@ -1,4 +1,4 @@
-package com.wheel.sys;
+package com.wheel.app;
 
 import com.apps.util.Console;
 import com.apps.util.Prompter;
@@ -6,6 +6,9 @@ import com.wheel.resources.Puzzle;
 import com.wheel.resources.wedge.Wedge;
 import com.wheel.resources.wedge.WedgeGood;
 import com.wheel.resources.wedge.WedgeMoney;
+import com.wheel.sys.Board;
+import com.wheel.sys.Player;
+import com.wheel.sys.Wheel;
 
 import static com.wheel.resources.wedge.WedgeBad.*;
 
@@ -34,11 +37,6 @@ public class Host {
     }
 
 
-    public void announceWinner() {
-
-    }
-
-
     public List<Player> getPlayers() {
         ArrayList<Player> players = new ArrayList<>();
         //prompt number of players
@@ -52,7 +50,6 @@ public class Host {
             players.add(new Player(name));
 
         }
-
         return Collections.unmodifiableList(players);
     }
 
@@ -66,11 +63,10 @@ public class Host {
         boolean result = false;
         this.wheel = wheel;
 
-//        System.out.println("It's " + players. + "'s turn!");
         prompter.prompt(player.getName() + ", press enter to spin the wheel.");
         Wedge wedge = wheel.getRandomWedge();
         Console.clear();
-        board.showSolution();
+        board.update();
         System.out.println(player.getName() + ", you landed on " + wedge);
         if (wedge instanceof WedgeMoney || wedge instanceof WedgeGood) {
             result = processGuess(wedge, player);
@@ -78,7 +74,7 @@ public class Host {
             if (wedge == BANKRUPT) {
                 player.goBankrupt();
                 Console.clear();
-                board.showSolution();
+                board.update();
                 System.out.println("Oh no!" + player.getName() + " lost all of their money so far for this round!");
             }
             Console.pause(2000L);
@@ -114,7 +110,7 @@ public class Host {
         }
 
         Console.clear();
-        board.showSolution();
+        board.update();
         boolean solvedPuzzle = false;
         //Check if guess is correct
         int numTimesInPuzzle = puzzle.checkLetter(guess.toUpperCase());
@@ -122,7 +118,7 @@ public class Host {
             board.recordCorrectGuess(guess);
             updateCorrectGuesses(guess);
             Console.clear();
-            board.showSolution();
+            board.update();
             if (wedge == null) {
                 //this is the case where they buy a vowel
             } else if (wedge instanceof WedgeGood) {
@@ -131,7 +127,7 @@ public class Host {
                 player.gainMoney(numTimesInPuzzle * wedge.value());
             }
             Console.clear();
-            board.showSolution();
+            board.update();
             //The player can spin, buy a vowel, or try to solve
 
             StringBuilder prompt = new StringBuilder();
@@ -155,7 +151,7 @@ public class Host {
             String choice = prompter.prompt(prompt.toString(), regex.toString(), errorMessage.toString());
 
             Console.clear();
-            board.showSolution();
+            board.update();
 
             if ("W".equalsIgnoreCase(choice)) {
                 solvedPuzzle = winOnTurn(player, wheel);
@@ -168,7 +164,7 @@ public class Host {
                 if (solvedPuzzle) {
                     Console.clear();
                     board.recordCorrectGuess(solutionGuess);
-                    board.showSolution();
+                    board.update();
                     player.addToGameBalance(player.getRoundBalance());
                     System.out.println(player.getName() + " solved the puzzle!");
                     Console.pause(2000L);
@@ -184,10 +180,10 @@ public class Host {
 
     public void generatePuzzle() {
         //Temporary - replace with puzzleFactory that reads puzzles from a file.
-        puzzle = new Puzzle("CHITTY CHITTY BANG BANG AEIOU", "Title", 0);
+//        puzzle = new Puzzle("CHITTY CHITTY BANG BANG AEIOU", "Title", 0);
 
 
-//        puzzle = Puzzle.PuzzleFactory.getRandomPuzzle();
+        puzzle = Puzzle.PuzzleFactory.getRandomPuzzle();
 
     }
 

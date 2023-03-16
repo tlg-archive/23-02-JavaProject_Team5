@@ -1,6 +1,8 @@
-package com.wheel.sys;
+package com.wheel.app;
 
 import com.apps.util.Prompter;
+import com.wheel.app.Host;
+import com.wheel.sys.Player;
 import org.junit.Before;
 import org.junit.Test;
 

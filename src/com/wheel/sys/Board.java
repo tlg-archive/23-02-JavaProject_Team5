@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /*
@@ -23,6 +24,7 @@ public class Board {
     private BoardPuzzleManager manager;
     private List<Player> players;
     private StringBuilder correctGuesses = new StringBuilder();
+    private Integer currentRound;
 
 //    StringBuilder wrongGuesses = new StringBuilder();
 
@@ -42,6 +44,7 @@ public class Board {
     public void showRoundWinner(Player roundWinner) {
         String filePath = "textFiles/roundWinner.txt";
         List<String> lines = loadLinesFromFile(filePath);
+        lines.set(8, lines.get(8).replaceAll("\\d", currentRound.toString()));
         String name = roundWinner.getName();
         int roundBalance = roundWinner.getRoundBalance();
         int gameBalance = roundWinner.getGameBalance();
@@ -61,8 +64,6 @@ public class Board {
         for (int i = 15; i < lines.size(); i++) {
             System.out.println(colorize(lines.get(i)));
         }
-
-
     }
 
     private String overlay(String base, String overlay) {
@@ -101,12 +102,9 @@ public class Board {
 
             for (int j = i; j < bannerLines.size(); j++) {
                 System.out.println("\u001b[38;5;220m" + bannerLines.get(j) + "\033[0m");
-
-
             }
             Console.pause(100L);
         }
-        //Initial startup banner
     }
 
     public void displayRound(int round) {
@@ -150,13 +148,7 @@ public class Board {
     }
 
 
-    public void displayPlayers() {
-        // player information on bottom of board. Name, number, and amount of money
-
-    }
-
-
-    public void showSolution() {
+    public void update() {
         topFiveLines();
         categoryLineFive(currentPuzzle.getCategory());
         for (int i = 5; i < 7; i++) {
@@ -228,7 +220,6 @@ public class Board {
             sb.append(tokens[i]);
             if (i < tokens.length - 1) sb.append(FGREN.value() + "|" + FGOLD.value());
         }
-//        return result;
         return sb.toString();
     }
 
@@ -239,7 +230,7 @@ public class Board {
 
         String leftPadding;
         String rightPadding;
-        if (paddingLength % 2 == 0) { //paddingLength--;
+        if (paddingLength % 2 == 0) {
             leftPadding = base.substring(0, paddingLength - 1);
             rightPadding = base.substring(baseLength - paddingLength - 1);
         } else {
@@ -248,13 +239,11 @@ public class Board {
         }
 
         return colorize(leftPadding + overlay + rightPadding);
-//        return leftPadding + overlay + rightPadding;
     }
 
     private String solutionLine(String[] puzzleWords) {
         String line1 = Arrays.toString(puzzleWords).replace("[", "").
                 replace("]", "").replace(",", "").replace(" ", "░");
-
 
         StringBuilder sb = new StringBuilder();
         sb.append("|");
@@ -284,14 +273,6 @@ public class Board {
         System.out.printf(FGOLD.value() + category);
         printSpaces(37 - category.length() - leading);
         System.out.printf(FBLUE.value() + "║\n");
-    }
-
-
-    public void displayBoard(Puzzle puzzle) {
-        setCurrentPuzzle(puzzle);
-        for (var line : boardLines) {
-            System.out.println(line);
-        }
     }
 
 
@@ -327,6 +308,7 @@ public class Board {
 
     public void updateRound(Integer round) {
         boardLines.set(13, boardLines.get(13).replaceAll("\\d", round.toString()));
+        currentRound = round;
         correctGuesses = new StringBuilder();
     }
 
@@ -362,10 +344,37 @@ public class Board {
 
     public void recordCorrectGuess(String guess) {
         correctGuesses.append(guess);
-        System.out.println(correctGuesses);
     }
 
     private String getAnswerMask() {
         return "[^-?!'&░|" + correctGuesses.toString() + "]";
+    }
+
+    public void showGameWinner(List<Player> players) {
+        List<Player> winners = new ArrayList<>(players);
+        winners.sort(Comparator.comparing(Player::getGameBalance).reversed());
+        String[] overlayLines = new String[14];
+        Arrays.fill(overlayLines, "");
+        for(int i = 0; i < winners.size(); i++){
+            int j = i * 3;
+            overlayLines[j] = winners.get(i).getName();
+            overlayLines[j+1] = "$" + Integer.toString(winners.get(i).getGameBalance());
+            overlayLines[j+2] = "";
+        }
+        Console.clear();
+        List<String> lines = loadLinesFromFile("textFiles/endOfGame.txt");
+        topFiveLines();
+        categoryLineFive(" WE HAVE A WINNER!");
+        System.out.println(colorize(lines.get(0)));
+        System.out.println(colorize(lines.get(1)));
+        for(int i = 2; i < 11; i++){
+            System.out.println(overlay(lines.get(i), overlayLines[i - 2]));
+        }
+        System.out.println(overlay(lines.get(11),"THANKS FOR PLAYING"));
+        System.out.println(overlay(lines.get(12), "$$ WHEEL OF FORTUNE $$"));
+        for(int i = 14; i < lines.size(); i++){
+            System.out.println(colorize(lines.get(i)));
+        }
+
     }
 }

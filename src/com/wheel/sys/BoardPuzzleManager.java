@@ -30,7 +30,7 @@ class BoardPuzzleManager {
         words = puzzle.getPuzzle().split(" ");
     }
 
-    public ArrayList<String[]> determineLines() {
+     ArrayList<String[]> determineLines() {
         ArrayList<String[]> lines = new ArrayList<>();
         ArrayList<String> current = new ArrayList<>();
 

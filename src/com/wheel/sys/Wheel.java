@@ -9,7 +9,7 @@ import java.util.*;
 public class Wheel {
 
 
-    List<Wedge> wheel = new ArrayList<>();
+    private List<Wedge> wheel = new ArrayList<>();
 
 
     public Wheel() {

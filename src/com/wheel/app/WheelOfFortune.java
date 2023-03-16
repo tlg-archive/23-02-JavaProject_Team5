@@ -2,7 +2,6 @@ package com.wheel.app;
 
 import com.apps.util.Console;
 import com.wheel.sys.Board;
-import com.wheel.sys.Host;
 import com.wheel.sys.Player;
 import com.wheel.sys.Wheel;
 
@@ -11,10 +10,9 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class WheelOfFortune {
-    Board board = Board.getInstance();
-    Host host = new Host();
-    Wheel wheel = new Wheel();
-    List<Player> players;
+    private final Board board = Board.getInstance();
+    private final Host host = new Host();
+    private List<Player> players;
 
     public void play() {
         board.displayBanner();
@@ -32,7 +30,7 @@ public class WheelOfFortune {
             board.displayRound(round);
             Console.clear();
             host.generatePuzzle();
-            board.displayBoard(host.getPuzzle());
+            board.setCurrentPuzzle(host.getPuzzle());
             boolean roundOver = false;
             board.updateRound(round);
             host.clearCorrectGuesses();
@@ -50,7 +48,7 @@ public class WheelOfFortune {
                 //System.out.println("We are in round: " + (round + 1));
                 board.markCurrentPlayer(playerIndex);
                 Console.clear();
-                board.showSolution();
+                board.update();
                 roundOver = host.winOnTurn(players.get(playerIndex), wheel);
                 if(roundOver){
                     board.showRoundWinner(players.get(playerIndex));
@@ -68,5 +66,6 @@ public class WheelOfFortune {
 
 
         }
+        board.showGameWinner(players);
     }
 }
