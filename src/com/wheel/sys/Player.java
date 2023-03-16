@@ -17,9 +17,7 @@ public class Player {
 
     public Player(String name) {
         this.name = name;
-
     }
-
 
     public void gainToken(Wedge wedge) {
         tokens.add(wedge);
@@ -29,11 +27,9 @@ public class Player {
         roundBalance += money;
     }
 
-
     public String getName() {
         return name;
     }
-
 
     public int getRoundBalance() {
         return roundBalance;

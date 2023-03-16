@@ -23,19 +23,26 @@ import java.util.Scanner;
 public class Host {
     private Puzzle puzzle;
     private Wheel wheel;
-    private List<Player> players;
-    private int currentPlayerIndex;
     private StringBuilder consonantRegex = new StringBuilder();
-
-    //PUT THIS SOMEWHERE ELSE
     private Prompter prompter = new Prompter(new Scanner(System.in));
     private Board board;
 
-
+    //This method is for testing purposes.
     public void assignPrompter(Prompter prompter) {
         this.prompter = prompter;
     }
 
+    public void showWelcomeMessage() {
+        List<String> welcomeMessage = new ArrayList<>();
+        try {
+            welcomeMessage = Files.readAllLines(Path.of("textFiles/welcomeMessage.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (var line : welcomeMessage) {
+            System.out.println(line);
+        }
+    }
 
     public List<Player> getPlayers() {
         ArrayList<Player> players = new ArrayList<>();
@@ -48,7 +55,6 @@ public class Host {
                 name = "Player" + (i + 1);
             }
             players.add(new Player(name));
-
         }
         return Collections.unmodifiableList(players);
     }
@@ -82,19 +88,6 @@ public class Host {
         return result;
     }
 
-    private String validConsonantRegex(){
-        return "^(?!.*[aeiouAEIOU" + consonantRegex + "])[a-zA-Z]$";
-    }
-
-    private void updateCorrectGuesses(String correctGuess){
-        consonantRegex.append(correctGuess.toUpperCase());
-        consonantRegex.append(correctGuess.toLowerCase());
-    }
-
-    public void clearCorrectGuesses(){
-        consonantRegex = new StringBuilder();
-    }
-
     boolean processGuess(Wedge wedge, Player player) {
         //prompt for guess
         String guess;
@@ -102,8 +95,6 @@ public class Host {
         if (wedge == null) {
             guess = prompter.prompt(player.getName() + ", guess a vowel: ", "[aeiouAEIOU]",
                     "\nYou paid for a vowel, so gimme one! ").toUpperCase();
-//            System.out.println(guess);
-
         } else {
             guess = prompter.prompt(player.getName() + ", guess a consonant: ", validConsonantRegex(),
                     "Provide a consonant that isn't on the board.\n").toUpperCase();
@@ -143,10 +134,8 @@ public class Host {
             }
             prompt.append("Solve the [P]uzzle: ");
             regex.append("]");
-
             errorMessage.append(" or P: ");
             errorMessage.append(" or p");//************************Check on this!
-
 
             String choice = prompter.prompt(prompt.toString(), regex.toString(), errorMessage.toString());
 
@@ -169,12 +158,9 @@ public class Host {
                     System.out.println(player.getName() + " solved the puzzle!");
                     Console.pause(2000L);
                     Console.clear();
-
                 }
             }
         }
-
-
         return solvedPuzzle;
     }
 
@@ -182,9 +168,7 @@ public class Host {
         //Temporary - replace with puzzleFactory that reads puzzles from a file.
 //        puzzle = new Puzzle("CHITTY CHITTY BANG BANG AEIOU", "Title", 0);
 
-
         puzzle = Puzzle.PuzzleFactory.getRandomPuzzle();
-
     }
 
     public Puzzle getPuzzle() {
@@ -195,15 +179,16 @@ public class Host {
         this.board = board;
     }
 
-    public void showWelcomeMessage() {
-        List<String> welcomeMessage = new ArrayList<>();
-        try {
-            welcomeMessage = Files.readAllLines(Path.of("textFiles/welcomeMessage.txt"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for(var line : welcomeMessage){
-            System.out.println(line);
-        }
+    public void clearCorrectGuesses() {
+        consonantRegex = new StringBuilder();
+    }
+
+    private void updateCorrectGuesses(String correctGuess) {
+        consonantRegex.append(correctGuess.toUpperCase());
+        consonantRegex.append(correctGuess.toLowerCase());
+    }
+
+    private String validConsonantRegex() {
+        return "^(?!.*[aeiouAEIOU" + consonantRegex + "])[a-zA-Z]$";
     }
 }

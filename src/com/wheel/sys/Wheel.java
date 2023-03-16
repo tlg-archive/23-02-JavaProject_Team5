@@ -1,16 +1,11 @@
 package com.wheel.sys;
 
-
 import com.wheel.resources.wedge.*;
 
 import java.util.*;
 
-
 public class Wheel {
-
-
     private List<Wedge> wheel = new ArrayList<>();
-
 
     public Wheel() {
         wheel.add(WedgeMoney.TOP_VALUE);
@@ -37,8 +32,6 @@ public class Wheel {
         wheel.add(WedgeBad.BANKRUPT);
         wheel.add(WedgeBad.LOSE_TURN);
         wheel.add(WedgeGood.FREE_SPIN);
-
-
     }
 
     public Wedge getRandomWedge() {
@@ -49,8 +42,6 @@ public class Wheel {
         // Return the corresponding wedge
         return wheel.get(randomIndex);
     }
-
-
 }
 
 

@@ -50,7 +50,7 @@ public class WheelOfFortune {
                 Console.clear();
                 board.update();
                 roundOver = host.winOnTurn(players.get(playerIndex), wheel);
-                if(roundOver){
+                if (roundOver) {
                     board.showRoundWinner(players.get(playerIndex));
                     Console.pause(2000);
                 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardTest {
-    Board board = new Board();
+    Board board = Board.getInstance();
     List<Player> players = new ArrayList<>();
 
     @Before
@@ -37,7 +37,7 @@ public class BoardTest {
     }
 
     @Test
-    public void displayBanner(){
+    public void displayBanner() {
         board.displayBanner();
     }
 

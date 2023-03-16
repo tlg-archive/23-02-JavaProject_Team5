@@ -8,11 +8,12 @@ public enum myColors {
     ESCAP("\u001B[0m");
 
     private final String value;
-    private myColors(String value){
+
+    private myColors(String value) {
         this.value = value;
     }
 
-    public String value(){
+    public String value() {
         return value;
     }
 }
